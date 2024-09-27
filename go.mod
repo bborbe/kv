@@ -8,6 +8,7 @@ require (
 	github.com/bborbe/log v1.0.0
 	github.com/bborbe/run v1.5.3
 	github.com/golang/glog v1.2.2
+	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.20.2
 	github.com/onsi/gomega v1.34.2
 )
@@ -30,7 +31,6 @@ require (
 	github.com/google/addlicense v1.1.1 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/pprof v0.0.0-20240910150728-a0b0bb1d4134 // indirect
-	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/incu6us/goimports-reviser v0.1.6 // indirect
 	github.com/kisielk/errcheck v1.7.0 // indirect
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.9.0 // indirect
