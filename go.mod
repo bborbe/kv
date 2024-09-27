@@ -4,7 +4,7 @@ go 1.23.1
 
 require (
 	github.com/bborbe/errors v1.3.0
-	github.com/bborbe/http v1.4.0
+	github.com/bborbe/http v1.5.0
 	github.com/bborbe/log v1.0.0
 	github.com/bborbe/run v1.5.3
 	github.com/golang/glog v1.2.2
@@ -18,7 +18,7 @@ require (
 	github.com/bborbe/math v1.1.0 // indirect
 	github.com/bborbe/parse v1.3.1 // indirect
 	github.com/bborbe/sentry v1.7.0 // indirect
-	github.com/bborbe/time v1.5.2 // indirect
+	github.com/bborbe/time v1.6.2 // indirect
 	github.com/bborbe/validation v1.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
@@ -30,9 +30,10 @@ require (
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
 	github.com/google/addlicense v1.1.1 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20240910150728-a0b0bb1d4134 // indirect
+	github.com/google/pprof v0.0.0-20240925223930-fa3061bff0bc // indirect
 	github.com/incu6us/goimports-reviser v0.1.6 // indirect
 	github.com/kisielk/errcheck v1.7.0 // indirect
+	github.com/klauspost/compress v1.17.10 // indirect
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.9.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -40,6 +41,7 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.59.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
+	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.21.0 // indirect
 	golang.org/x/net v0.29.0 // indirect

@@ -12,6 +12,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 - add remove to DB to delete the complete database
 - add handler for reset bucket and complete database
+- go mod update
 
 ## v1.8.2
 

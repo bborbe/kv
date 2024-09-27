@@ -4,8 +4,8 @@ github.com/bborbe/collection
 # github.com/bborbe/errors v1.3.0
 ## explicit; go 1.22.4
 github.com/bborbe/errors
-# github.com/bborbe/http v1.4.0
-## explicit; go 1.22.5
+# github.com/bborbe/http v1.5.0
+## explicit; go 1.23.1
 github.com/bborbe/http
 # github.com/bborbe/log v1.0.0
 ## explicit; go 1.21.8
@@ -22,7 +22,7 @@ github.com/bborbe/run
 # github.com/bborbe/sentry v1.7.0
 ## explicit; go 1.22.3
 github.com/bborbe/sentry
-# github.com/bborbe/time v1.5.2
+# github.com/bborbe/time v1.6.2
 ## explicit; go 1.23.1
 github.com/bborbe/time
 # github.com/bborbe/validation v1.2.0
@@ -73,7 +73,7 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/pprof v0.0.0-20240910150728-a0b0bb1d4134
+# github.com/google/pprof v0.0.0-20240925223930-fa3061bff0bc
 ## explicit; go 1.22
 github.com/google/pprof/profile
 # github.com/gorilla/mux v1.8.1
@@ -89,6 +89,8 @@ github.com/incu6us/goimports-reviser/reviser
 ## explicit; go 1.18
 github.com/kisielk/errcheck
 github.com/kisielk/errcheck/errcheck
+# github.com/klauspost/compress v1.17.10
+## explicit; go 1.21
 # github.com/maxbrunsfeld/counterfeiter/v6 v6.9.0
 ## explicit; go 1.22.0
 github.com/maxbrunsfeld/counterfeiter/v6
@@ -151,6 +153,8 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
+# github.com/rogpeppe/go-internal v1.13.1
+## explicit; go 1.22
 # golang.org/x/lint v0.0.0-20210508222113-6edffad5e616
 ## explicit; go 1.11
 golang.org/x/lint
