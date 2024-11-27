@@ -10,7 +10,7 @@ require (
 	github.com/golang/glog v1.2.3
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.22.0
-	github.com/onsi/gomega v1.35.1
+	github.com/onsi/gomega v1.36.0
 )
 
 require (
@@ -18,7 +18,7 @@ require (
 	github.com/bborbe/math v1.1.0 // indirect
 	github.com/bborbe/parse v1.4.2 // indirect
 	github.com/bborbe/sentry v1.7.0 // indirect
-	github.com/bborbe/time v1.8.0 // indirect
+	github.com/bborbe/time v1.8.2 // indirect
 	github.com/bborbe/validation v1.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.7.1 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
 	github.com/google/addlicense v1.1.1 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/pprof v0.0.0-20241101162523-b92577c0c142 // indirect
+	github.com/google/pprof v0.0.0-20241122213907-cbe949e5a41b // indirect
 	github.com/incu6us/goimports-reviser v0.1.6 // indirect
 	github.com/kisielk/errcheck v1.8.0 // indirect
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.10.0 // indirect
@@ -40,6 +40,7 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.60.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
+	github.com/stretchr/testify v1.10.0 // indirect
 	golang.org/x/lint v0.0.0-20241112194109-818c5a804067 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.31.0 // indirect
