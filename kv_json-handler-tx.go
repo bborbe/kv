@@ -40,7 +40,7 @@ func NewJsonHandlerViewTx(db DB, jsonHandler JsonHandlerTx) libhttp.WithError {
 	})
 }
 
-func NewUpdateHandlerViewTx(db DB, jsonHandler JsonHandlerTx) libhttp.WithError {
+func NewJsonHandlerUpdateTx(db DB, jsonHandler JsonHandlerTx) libhttp.WithError {
 	return libhttp.WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
 		return db.Update(ctx, func(ctx context.Context, tx Tx) error {
 			result, err := jsonHandler.ServeHTTP(ctx, tx, req)
