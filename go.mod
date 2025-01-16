@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/bborbe/errors v1.3.0
-	github.com/bborbe/http v1.7.0
+	github.com/bborbe/http v1.7.1
 	github.com/bborbe/log v1.0.0
 	github.com/bborbe/run v1.5.4
 	github.com/golang/glog v1.2.3
