@@ -5,7 +5,6 @@
 package kv
 
 import (
-	"bytes"
 	"context"
 
 	"github.com/bborbe/errors"
@@ -90,24 +89,15 @@ func (r relationStoreTx[ID, RelatedID]) Remove(ctx context.Context, tx Tx, id ID
 }
 
 func (r relationStoreTx[ID, RelatedID]) Delete(ctx context.Context, tx Tx, id ID) error {
-	err := r.relationIdBucket.Map(ctx, tx, func(ctx context.Context, relatedID RelatedID, ids []ID) error {
-		result := make([]ID, 0)
-		for _, i := range ids {
-			if bytes.Compare([]byte(id), []byte(i)) == 0 {
-				continue
-			}
-			result = append(result, id)
-		}
-		return r.relationIdBucket.Add(ctx, tx, relatedID, result)
-	})
+	relatedIDs, err := r.RelatedIDs(ctx, tx, id)
 	if err != nil {
-		if errors.Is(err, BucketNotFoundError) || errors.Is(err, KeyNotFoundError) {
-			return nil
-		}
-		return errors.Wrapf(ctx, err, "map failed")
+		return errors.Wrapf(ctx, err, "get relationIDs for id %s failed", id)
+	}
+	if err := r.Remove(ctx, tx, id, relatedIDs); err != nil {
+		return errors.Wrapf(ctx, err, "remove relationIDs for id %s failed", id)
 	}
 	if err := r.idRelationBucket.Remove(ctx, tx, id); err != nil {
-		return err
+		return errors.Wrapf(ctx, err, "remove id %s failed", id)
 	}
 	return nil
 }
