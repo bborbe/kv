@@ -30,6 +30,10 @@ type RelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interfac
 	StreamIDs(ctx context.Context, tx Tx, ch chan<- ID) error
 	// StreamRelatedIDs return all existings relationIDs
 	StreamRelatedIDs(ctx context.Context, tx Tx, ch chan<- RelatedID) error
+	// MapIDRelations maps all entry to the given func
+	MapIDRelations(ctx context.Context, tx Tx, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error
+	// MapRelationIDs maps all entry to the given func
+	MapRelationIDs(ctx context.Context, tx Tx, fn func(ctx context.Context, key RelatedID, ids []ID) error) error
 }
 
 func NewRelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](name string) RelationStoreTx[ID, RelatedID] {
@@ -42,6 +46,14 @@ func NewRelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](name 
 type relationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] struct {
 	idRelationBucket StoreTx[ID, []RelatedID]
 	relationIdBucket StoreTx[RelatedID, []ID]
+}
+
+func (r relationStoreTx[ID, RelatedID]) MapIDRelations(ctx context.Context, tx Tx, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error {
+	return r.idRelationBucket.Map(ctx, tx, fn)
+}
+
+func (r relationStoreTx[ID, RelatedID]) MapRelationIDs(ctx context.Context, tx Tx, fn func(ctx context.Context, key RelatedID, ids []ID) error) error {
+	return r.relationIdBucket.Map(ctx, tx, fn)
 }
 
 func (r relationStoreTx[ID, RelatedID]) Add(ctx context.Context, tx Tx, id ID, relatedIds []RelatedID) error {
