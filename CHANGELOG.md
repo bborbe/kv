@@ -12,6 +12,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 - add Invert for the RelationStore and RelationStoreTx
 
+## v1.11.5
+
+- add MapIDRelations and MapRelationIDs
+
+## v1.11.4
+
+- remove performance bug in relationStoreTx delete
+
 ## v1.11.3
 
 - move JsonHandlerTx to github.com/bborbe/http

@@ -5,7 +5,6 @@
 package kv
 
 import (
-	"bytes"
 	"context"
 
 	"github.com/bborbe/errors"
@@ -33,6 +32,10 @@ type RelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interfac
 	StreamRelatedIDs(ctx context.Context, tx Tx, ch chan<- RelatedID) error
 	// Invert returns the same store with flipped ID <-> RelationID
 	Invert() RelationStoreTx[RelatedID, ID]
+	// MapIDRelations maps all entry to the given func
+	MapIDRelations(ctx context.Context, tx Tx, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error
+	// MapRelationIDs maps all entry to the given func
+	MapRelationIDs(ctx context.Context, tx Tx, fn func(ctx context.Context, key RelatedID, ids []ID) error) error
 }
 
 func NewRelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](name string) RelationStoreTx[ID, RelatedID] {
@@ -63,6 +66,14 @@ func (r *relationStoreTx[ID, RelatedID]) Invert() RelationStoreTx[RelatedID, ID]
 		r.relationIdBucket,
 		r.idRelationBucket,
 	)
+}
+
+func (r relationStoreTx[ID, RelatedID]) MapIDRelations(ctx context.Context, tx Tx, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error {
+	return r.idRelationBucket.Map(ctx, tx, fn)
+}
+
+func (r relationStoreTx[ID, RelatedID]) MapRelationIDs(ctx context.Context, tx Tx, fn func(ctx context.Context, key RelatedID, ids []ID) error) error {
+	return r.relationIdBucket.Map(ctx, tx, fn)
 }
 
 func (r *relationStoreTx[ID, RelatedID]) Add(ctx context.Context, tx Tx, id ID, relatedIds []RelatedID) error {
@@ -110,24 +121,15 @@ func (r *relationStoreTx[ID, RelatedID]) Remove(ctx context.Context, tx Tx, id I
 }
 
 func (r *relationStoreTx[ID, RelatedID]) Delete(ctx context.Context, tx Tx, id ID) error {
-	err := r.relationIdBucket.Map(ctx, tx, func(ctx context.Context, relatedID RelatedID, ids []ID) error {
-		result := make([]ID, 0)
-		for _, i := range ids {
-			if bytes.Compare([]byte(id), []byte(i)) == 0 {
-				continue
-			}
-			result = append(result, id)
-		}
-		return r.relationIdBucket.Add(ctx, tx, relatedID, result)
-	})
+	relatedIDs, err := r.RelatedIDs(ctx, tx, id)
 	if err != nil {
-		if errors.Is(err, BucketNotFoundError) || errors.Is(err, KeyNotFoundError) {
-			return nil
-		}
-		return errors.Wrapf(ctx, err, "map failed")
+		return errors.Wrapf(ctx, err, "get relationIDs for id %s failed", id)
+	}
+	if err := r.Remove(ctx, tx, id, relatedIDs); err != nil {
+		return errors.Wrapf(ctx, err, "remove relationIDs for id %s failed", id)
 	}
 	if err := r.idRelationBucket.Remove(ctx, tx, id); err != nil {
-		return err
+		return errors.Wrapf(ctx, err, "remove id %s failed", id)
 	}
 	return nil
 }

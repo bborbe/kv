@@ -6,7 +6,7 @@ require (
 	github.com/bborbe/errors v1.3.0
 	github.com/bborbe/http v1.8.0
 	github.com/bborbe/log v1.0.1
-	github.com/bborbe/run v1.5.6
+	github.com/bborbe/run v1.5.5
 	github.com/golang/glog v1.2.4
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.22.2
@@ -44,12 +44,12 @@ require (
 	github.com/prometheus/procfs v0.15.1 // indirect
 	golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c // indirect
 	golang.org/x/lint v0.0.0-20241112194109-818c5a804067 // indirect
-	golang.org/x/mod v0.23.0 // indirect
+	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.34.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.30.0 // indirect
-	golang.org/x/telemetry v0.0.0-20250205183316-c67c2d15c073 // indirect
-	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
+	golang.org/x/telemetry v0.0.0-20250117155846-04cd7bae618c // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/tools v0.29.0 // indirect
 	golang.org/x/vuln v1.1.4 // indirect
 	google.golang.org/protobuf v1.36.4 // indirect
