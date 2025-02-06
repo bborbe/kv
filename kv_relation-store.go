@@ -61,7 +61,6 @@ type relationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] struct {
 	db              DB
 }
 
-
 func (r *relationStore[ID, RelatedID]) MapIDRelations(ctx context.Context, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error {
 	err := r.db.View(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.MapIDRelations(ctx, tx, fn)
