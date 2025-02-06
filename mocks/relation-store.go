@@ -48,6 +48,16 @@ type RelationStore struct {
 		result1 []string
 		result2 error
 	}
+	InvertStub        func() kv.RelationStore[string, string]
+	invertMutex       sync.RWMutex
+	invertArgsForCall []struct {
+	}
+	invertReturns struct {
+		result1 kv.RelationStore[string, string]
+	}
+	invertReturnsOnCall map[int]struct {
+		result1 kv.RelationStore[string, string]
+	}
 	RelatedIDsStub        func(context.Context, string) ([]string, error)
 	relatedIDsMutex       sync.RWMutex
 	relatedIDsArgsForCall []struct {
@@ -309,6 +319,59 @@ func (fake *RelationStore) IDsReturnsOnCall(i int, result1 []string, result2 err
 		result1 []string
 		result2 error
 	}{result1, result2}
+}
+
+func (fake *RelationStore) Invert() kv.RelationStore[string, string] {
+	fake.invertMutex.Lock()
+	ret, specificReturn := fake.invertReturnsOnCall[len(fake.invertArgsForCall)]
+	fake.invertArgsForCall = append(fake.invertArgsForCall, struct {
+	}{})
+	stub := fake.InvertStub
+	fakeReturns := fake.invertReturns
+	fake.recordInvocation("Invert", []interface{}{})
+	fake.invertMutex.Unlock()
+	if stub != nil {
+		return stub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	return fakeReturns.result1
+}
+
+func (fake *RelationStore) InvertCallCount() int {
+	fake.invertMutex.RLock()
+	defer fake.invertMutex.RUnlock()
+	return len(fake.invertArgsForCall)
+}
+
+func (fake *RelationStore) InvertCalls(stub func() kv.RelationStore[string, string]) {
+	fake.invertMutex.Lock()
+	defer fake.invertMutex.Unlock()
+	fake.InvertStub = stub
+}
+
+func (fake *RelationStore) InvertReturns(result1 kv.RelationStore[string, string]) {
+	fake.invertMutex.Lock()
+	defer fake.invertMutex.Unlock()
+	fake.InvertStub = nil
+	fake.invertReturns = struct {
+		result1 kv.RelationStore[string, string]
+	}{result1}
+}
+
+func (fake *RelationStore) InvertReturnsOnCall(i int, result1 kv.RelationStore[string, string]) {
+	fake.invertMutex.Lock()
+	defer fake.invertMutex.Unlock()
+	fake.InvertStub = nil
+	if fake.invertReturnsOnCall == nil {
+		fake.invertReturnsOnCall = make(map[int]struct {
+			result1 kv.RelationStore[string, string]
+		})
+	}
+	fake.invertReturnsOnCall[i] = struct {
+		result1 kv.RelationStore[string, string]
+	}{result1}
 }
 
 func (fake *RelationStore) RelatedIDs(arg1 context.Context, arg2 string) ([]string, error) {
@@ -645,6 +708,8 @@ func (fake *RelationStore) Invocations() map[string][][]interface{} {
 	defer fake.deleteMutex.RUnlock()
 	fake.iDsMutex.RLock()
 	defer fake.iDsMutex.RUnlock()
+	fake.invertMutex.RLock()
+	defer fake.invertMutex.RUnlock()
 	fake.relatedIDsMutex.RLock()
 	defer fake.relatedIDsMutex.RUnlock()
 	fake.removeMutex.RLock()

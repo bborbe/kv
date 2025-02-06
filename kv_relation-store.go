@@ -27,15 +27,27 @@ type RelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interface 
 	RelatedIDs(ctx context.Context, id ID) ([]RelatedID, error)
 	// IDs return all ids of RelatedID
 	IDs(ctx context.Context, relatedId RelatedID) ([]ID, error)
-	// StreamIDs return all existings IDs
+	// StreamIDs return all existing IDs
 	StreamIDs(ctx context.Context, ch chan<- ID) error
-	// StreamRelatedIDs return all existings relationIDs
+	// StreamRelatedIDs return all existing relationIDs
 	StreamRelatedIDs(ctx context.Context, ch chan<- RelatedID) error
+	// Invert returns the same store with flipped ID <-> RelationID
+	Invert() RelationStore[RelatedID, ID]
 }
 
 func NewRelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](db DB, name string) RelationStore[ID, RelatedID] {
+	return NewRelationStoreFromRelationStoreTx(
+		db,
+		NewRelationStoreTx[ID, RelatedID](name),
+	)
+}
+
+func NewRelationStoreFromRelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](
+	db DB,
+	storeTx RelationStoreTx[ID, RelatedID],
+) RelationStore[ID, RelatedID] {
 	return &relationStore[ID, RelatedID]{
-		relationStoreTx: NewRelationStoreTx[ID, RelatedID](name),
+		relationStoreTx: storeTx,
 		db:              db,
 	}
 }
@@ -43,6 +55,13 @@ func NewRelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](db DB, 
 type relationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] struct {
 	relationStoreTx RelationStoreTx[ID, RelatedID]
 	db              DB
+}
+
+func (r *relationStore[ID, RelatedID]) Invert() RelationStore[RelatedID, ID] {
+	return NewRelationStoreFromRelationStoreTx(
+		r.db,
+		r.relationStoreTx.Invert(),
+	)
 }
 
 func (r *relationStore[ID, RelatedID]) StreamIDs(ctx context.Context, ch chan<- ID) error {
