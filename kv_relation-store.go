@@ -10,7 +10,7 @@ import (
 	"github.com/bborbe/errors"
 )
 
-//counterfeiter:generate -o mocks/relation-store.go --fake-name RelationStore . RelationStoreString
+//counterfeiter:generate -o mocks/relation-store-string.go --fake-name RelationStoreString . RelationStoreString
 type RelationStoreString RelationStore[string, string]
 
 // RelationStore implement a forward and backword id lookup for a 1:N relation.

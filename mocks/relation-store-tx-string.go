@@ -8,13 +8,14 @@ import (
 	"github.com/bborbe/kv"
 )
 
-type RelationStore struct {
-	AddStub        func(context.Context, string, []string) error
+type RelationStoreTxString struct {
+	AddStub        func(context.Context, kv.Tx, string, []string) error
 	addMutex       sync.RWMutex
 	addArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
 	}
 	addReturns struct {
 		result1 error
@@ -22,11 +23,12 @@ type RelationStore struct {
 	addReturnsOnCall map[int]struct {
 		result1 error
 	}
-	DeleteStub        func(context.Context, string) error
+	DeleteStub        func(context.Context, kv.Tx, string) error
 	deleteMutex       sync.RWMutex
 	deleteArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
+		arg2 kv.Tx
+		arg3 string
 	}
 	deleteReturns struct {
 		result1 error
@@ -34,11 +36,12 @@ type RelationStore struct {
 	deleteReturnsOnCall map[int]struct {
 		result1 error
 	}
-	IDsStub        func(context.Context, string) ([]string, error)
+	IDsStub        func(context.Context, kv.Tx, string) ([]string, error)
 	iDsMutex       sync.RWMutex
 	iDsArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
+		arg2 kv.Tx
+		arg3 string
 	}
 	iDsReturns struct {
 		result1 []string
@@ -48,21 +51,22 @@ type RelationStore struct {
 		result1 []string
 		result2 error
 	}
-	InvertStub        func() kv.RelationStore[string, string]
+	InvertStub        func() kv.RelationStoreTx[string, string]
 	invertMutex       sync.RWMutex
 	invertArgsForCall []struct {
 	}
 	invertReturns struct {
-		result1 kv.RelationStore[string, string]
+		result1 kv.RelationStoreTx[string, string]
 	}
 	invertReturnsOnCall map[int]struct {
-		result1 kv.RelationStore[string, string]
+		result1 kv.RelationStoreTx[string, string]
 	}
-	MapIDRelationsStub        func(context.Context, func(ctx context.Context, key string, relatedIDs []string) error) error
+	MapIDRelationsStub        func(context.Context, kv.Tx, func(ctx context.Context, key string, relatedIDs []string) error) error
 	mapIDRelationsMutex       sync.RWMutex
 	mapIDRelationsArgsForCall []struct {
 		arg1 context.Context
-		arg2 func(ctx context.Context, key string, relatedIDs []string) error
+		arg2 kv.Tx
+		arg3 func(ctx context.Context, key string, relatedIDs []string) error
 	}
 	mapIDRelationsReturns struct {
 		result1 error
@@ -70,11 +74,12 @@ type RelationStore struct {
 	mapIDRelationsReturnsOnCall map[int]struct {
 		result1 error
 	}
-	MapRelationIDsStub        func(context.Context, func(ctx context.Context, key string, ids []string) error) error
+	MapRelationIDsStub        func(context.Context, kv.Tx, func(ctx context.Context, key string, ids []string) error) error
 	mapRelationIDsMutex       sync.RWMutex
 	mapRelationIDsArgsForCall []struct {
 		arg1 context.Context
-		arg2 func(ctx context.Context, key string, ids []string) error
+		arg2 kv.Tx
+		arg3 func(ctx context.Context, key string, ids []string) error
 	}
 	mapRelationIDsReturns struct {
 		result1 error
@@ -82,11 +87,12 @@ type RelationStore struct {
 	mapRelationIDsReturnsOnCall map[int]struct {
 		result1 error
 	}
-	RelatedIDsStub        func(context.Context, string) ([]string, error)
+	RelatedIDsStub        func(context.Context, kv.Tx, string) ([]string, error)
 	relatedIDsMutex       sync.RWMutex
 	relatedIDsArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
+		arg2 kv.Tx
+		arg3 string
 	}
 	relatedIDsReturns struct {
 		result1 []string
@@ -96,12 +102,13 @@ type RelationStore struct {
 		result1 []string
 		result2 error
 	}
-	RemoveStub        func(context.Context, string, []string) error
+	RemoveStub        func(context.Context, kv.Tx, string, []string) error
 	removeMutex       sync.RWMutex
 	removeArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
 	}
 	removeReturns struct {
 		result1 error
@@ -109,12 +116,13 @@ type RelationStore struct {
 	removeReturnsOnCall map[int]struct {
 		result1 error
 	}
-	ReplaceStub        func(context.Context, string, []string) error
+	ReplaceStub        func(context.Context, kv.Tx, string, []string) error
 	replaceMutex       sync.RWMutex
 	replaceArgsForCall []struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
 	}
 	replaceReturns struct {
 		result1 error
@@ -122,11 +130,12 @@ type RelationStore struct {
 	replaceReturnsOnCall map[int]struct {
 		result1 error
 	}
-	StreamIDsStub        func(context.Context, chan<- string) error
+	StreamIDsStub        func(context.Context, kv.Tx, chan<- string) error
 	streamIDsMutex       sync.RWMutex
 	streamIDsArgsForCall []struct {
 		arg1 context.Context
-		arg2 chan<- string
+		arg2 kv.Tx
+		arg3 chan<- string
 	}
 	streamIDsReturns struct {
 		result1 error
@@ -134,11 +143,12 @@ type RelationStore struct {
 	streamIDsReturnsOnCall map[int]struct {
 		result1 error
 	}
-	StreamRelatedIDsStub        func(context.Context, chan<- string) error
+	StreamRelatedIDsStub        func(context.Context, kv.Tx, chan<- string) error
 	streamRelatedIDsMutex       sync.RWMutex
 	streamRelatedIDsArgsForCall []struct {
 		arg1 context.Context
-		arg2 chan<- string
+		arg2 kv.Tx
+		arg3 chan<- string
 	}
 	streamRelatedIDsReturns struct {
 		result1 error
@@ -150,25 +160,26 @@ type RelationStore struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *RelationStore) Add(arg1 context.Context, arg2 string, arg3 []string) error {
-	var arg3Copy []string
-	if arg3 != nil {
-		arg3Copy = make([]string, len(arg3))
-		copy(arg3Copy, arg3)
+func (fake *RelationStoreTxString) Add(arg1 context.Context, arg2 kv.Tx, arg3 string, arg4 []string) error {
+	var arg4Copy []string
+	if arg4 != nil {
+		arg4Copy = make([]string, len(arg4))
+		copy(arg4Copy, arg4)
 	}
 	fake.addMutex.Lock()
 	ret, specificReturn := fake.addReturnsOnCall[len(fake.addArgsForCall)]
 	fake.addArgsForCall = append(fake.addArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
-	}{arg1, arg2, arg3Copy})
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
+	}{arg1, arg2, arg3, arg4Copy})
 	stub := fake.AddStub
 	fakeReturns := fake.addReturns
-	fake.recordInvocation("Add", []interface{}{arg1, arg2, arg3Copy})
+	fake.recordInvocation("Add", []interface{}{arg1, arg2, arg3, arg4Copy})
 	fake.addMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2, arg3)
+		return stub(arg1, arg2, arg3, arg4)
 	}
 	if specificReturn {
 		return ret.result1
@@ -176,26 +187,26 @@ func (fake *RelationStore) Add(arg1 context.Context, arg2 string, arg3 []string)
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) AddCallCount() int {
+func (fake *RelationStoreTxString) AddCallCount() int {
 	fake.addMutex.RLock()
 	defer fake.addMutex.RUnlock()
 	return len(fake.addArgsForCall)
 }
 
-func (fake *RelationStore) AddCalls(stub func(context.Context, string, []string) error) {
+func (fake *RelationStoreTxString) AddCalls(stub func(context.Context, kv.Tx, string, []string) error) {
 	fake.addMutex.Lock()
 	defer fake.addMutex.Unlock()
 	fake.AddStub = stub
 }
 
-func (fake *RelationStore) AddArgsForCall(i int) (context.Context, string, []string) {
+func (fake *RelationStoreTxString) AddArgsForCall(i int) (context.Context, kv.Tx, string, []string) {
 	fake.addMutex.RLock()
 	defer fake.addMutex.RUnlock()
 	argsForCall := fake.addArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4
 }
 
-func (fake *RelationStore) AddReturns(result1 error) {
+func (fake *RelationStoreTxString) AddReturns(result1 error) {
 	fake.addMutex.Lock()
 	defer fake.addMutex.Unlock()
 	fake.AddStub = nil
@@ -204,7 +215,7 @@ func (fake *RelationStore) AddReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) AddReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) AddReturnsOnCall(i int, result1 error) {
 	fake.addMutex.Lock()
 	defer fake.addMutex.Unlock()
 	fake.AddStub = nil
@@ -218,19 +229,20 @@ func (fake *RelationStore) AddReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) Delete(arg1 context.Context, arg2 string) error {
+func (fake *RelationStoreTxString) Delete(arg1 context.Context, arg2 kv.Tx, arg3 string) error {
 	fake.deleteMutex.Lock()
 	ret, specificReturn := fake.deleteReturnsOnCall[len(fake.deleteArgsForCall)]
 	fake.deleteArgsForCall = append(fake.deleteArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 string
+	}{arg1, arg2, arg3})
 	stub := fake.DeleteStub
 	fakeReturns := fake.deleteReturns
-	fake.recordInvocation("Delete", []interface{}{arg1, arg2})
+	fake.recordInvocation("Delete", []interface{}{arg1, arg2, arg3})
 	fake.deleteMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1
@@ -238,26 +250,26 @@ func (fake *RelationStore) Delete(arg1 context.Context, arg2 string) error {
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) DeleteCallCount() int {
+func (fake *RelationStoreTxString) DeleteCallCount() int {
 	fake.deleteMutex.RLock()
 	defer fake.deleteMutex.RUnlock()
 	return len(fake.deleteArgsForCall)
 }
 
-func (fake *RelationStore) DeleteCalls(stub func(context.Context, string) error) {
+func (fake *RelationStoreTxString) DeleteCalls(stub func(context.Context, kv.Tx, string) error) {
 	fake.deleteMutex.Lock()
 	defer fake.deleteMutex.Unlock()
 	fake.DeleteStub = stub
 }
 
-func (fake *RelationStore) DeleteArgsForCall(i int) (context.Context, string) {
+func (fake *RelationStoreTxString) DeleteArgsForCall(i int) (context.Context, kv.Tx, string) {
 	fake.deleteMutex.RLock()
 	defer fake.deleteMutex.RUnlock()
 	argsForCall := fake.deleteArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) DeleteReturns(result1 error) {
+func (fake *RelationStoreTxString) DeleteReturns(result1 error) {
 	fake.deleteMutex.Lock()
 	defer fake.deleteMutex.Unlock()
 	fake.DeleteStub = nil
@@ -266,7 +278,7 @@ func (fake *RelationStore) DeleteReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) DeleteReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) DeleteReturnsOnCall(i int, result1 error) {
 	fake.deleteMutex.Lock()
 	defer fake.deleteMutex.Unlock()
 	fake.DeleteStub = nil
@@ -280,19 +292,20 @@ func (fake *RelationStore) DeleteReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) IDs(arg1 context.Context, arg2 string) ([]string, error) {
+func (fake *RelationStoreTxString) IDs(arg1 context.Context, arg2 kv.Tx, arg3 string) ([]string, error) {
 	fake.iDsMutex.Lock()
 	ret, specificReturn := fake.iDsReturnsOnCall[len(fake.iDsArgsForCall)]
 	fake.iDsArgsForCall = append(fake.iDsArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 string
+	}{arg1, arg2, arg3})
 	stub := fake.IDsStub
 	fakeReturns := fake.iDsReturns
-	fake.recordInvocation("IDs", []interface{}{arg1, arg2})
+	fake.recordInvocation("IDs", []interface{}{arg1, arg2, arg3})
 	fake.iDsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2
@@ -300,26 +313,26 @@ func (fake *RelationStore) IDs(arg1 context.Context, arg2 string) ([]string, err
 	return fakeReturns.result1, fakeReturns.result2
 }
 
-func (fake *RelationStore) IDsCallCount() int {
+func (fake *RelationStoreTxString) IDsCallCount() int {
 	fake.iDsMutex.RLock()
 	defer fake.iDsMutex.RUnlock()
 	return len(fake.iDsArgsForCall)
 }
 
-func (fake *RelationStore) IDsCalls(stub func(context.Context, string) ([]string, error)) {
+func (fake *RelationStoreTxString) IDsCalls(stub func(context.Context, kv.Tx, string) ([]string, error)) {
 	fake.iDsMutex.Lock()
 	defer fake.iDsMutex.Unlock()
 	fake.IDsStub = stub
 }
 
-func (fake *RelationStore) IDsArgsForCall(i int) (context.Context, string) {
+func (fake *RelationStoreTxString) IDsArgsForCall(i int) (context.Context, kv.Tx, string) {
 	fake.iDsMutex.RLock()
 	defer fake.iDsMutex.RUnlock()
 	argsForCall := fake.iDsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) IDsReturns(result1 []string, result2 error) {
+func (fake *RelationStoreTxString) IDsReturns(result1 []string, result2 error) {
 	fake.iDsMutex.Lock()
 	defer fake.iDsMutex.Unlock()
 	fake.IDsStub = nil
@@ -329,7 +342,7 @@ func (fake *RelationStore) IDsReturns(result1 []string, result2 error) {
 	}{result1, result2}
 }
 
-func (fake *RelationStore) IDsReturnsOnCall(i int, result1 []string, result2 error) {
+func (fake *RelationStoreTxString) IDsReturnsOnCall(i int, result1 []string, result2 error) {
 	fake.iDsMutex.Lock()
 	defer fake.iDsMutex.Unlock()
 	fake.IDsStub = nil
@@ -345,7 +358,7 @@ func (fake *RelationStore) IDsReturnsOnCall(i int, result1 []string, result2 err
 	}{result1, result2}
 }
 
-func (fake *RelationStore) Invert() kv.RelationStore[string, string] {
+func (fake *RelationStoreTxString) Invert() kv.RelationStoreTx[string, string] {
 	fake.invertMutex.Lock()
 	ret, specificReturn := fake.invertReturnsOnCall[len(fake.invertArgsForCall)]
 	fake.invertArgsForCall = append(fake.invertArgsForCall, struct {
@@ -363,54 +376,55 @@ func (fake *RelationStore) Invert() kv.RelationStore[string, string] {
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) InvertCallCount() int {
+func (fake *RelationStoreTxString) InvertCallCount() int {
 	fake.invertMutex.RLock()
 	defer fake.invertMutex.RUnlock()
 	return len(fake.invertArgsForCall)
 }
 
-func (fake *RelationStore) InvertCalls(stub func() kv.RelationStore[string, string]) {
+func (fake *RelationStoreTxString) InvertCalls(stub func() kv.RelationStoreTx[string, string]) {
 	fake.invertMutex.Lock()
 	defer fake.invertMutex.Unlock()
 	fake.InvertStub = stub
 }
 
-func (fake *RelationStore) InvertReturns(result1 kv.RelationStore[string, string]) {
+func (fake *RelationStoreTxString) InvertReturns(result1 kv.RelationStoreTx[string, string]) {
 	fake.invertMutex.Lock()
 	defer fake.invertMutex.Unlock()
 	fake.InvertStub = nil
 	fake.invertReturns = struct {
-		result1 kv.RelationStore[string, string]
+		result1 kv.RelationStoreTx[string, string]
 	}{result1}
 }
 
-func (fake *RelationStore) InvertReturnsOnCall(i int, result1 kv.RelationStore[string, string]) {
+func (fake *RelationStoreTxString) InvertReturnsOnCall(i int, result1 kv.RelationStoreTx[string, string]) {
 	fake.invertMutex.Lock()
 	defer fake.invertMutex.Unlock()
 	fake.InvertStub = nil
 	if fake.invertReturnsOnCall == nil {
 		fake.invertReturnsOnCall = make(map[int]struct {
-			result1 kv.RelationStore[string, string]
+			result1 kv.RelationStoreTx[string, string]
 		})
 	}
 	fake.invertReturnsOnCall[i] = struct {
-		result1 kv.RelationStore[string, string]
+		result1 kv.RelationStoreTx[string, string]
 	}{result1}
 }
 
-func (fake *RelationStore) MapIDRelations(arg1 context.Context, arg2 func(ctx context.Context, key string, relatedIDs []string) error) error {
+func (fake *RelationStoreTxString) MapIDRelations(arg1 context.Context, arg2 kv.Tx, arg3 func(ctx context.Context, key string, relatedIDs []string) error) error {
 	fake.mapIDRelationsMutex.Lock()
 	ret, specificReturn := fake.mapIDRelationsReturnsOnCall[len(fake.mapIDRelationsArgsForCall)]
 	fake.mapIDRelationsArgsForCall = append(fake.mapIDRelationsArgsForCall, struct {
 		arg1 context.Context
-		arg2 func(ctx context.Context, key string, relatedIDs []string) error
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 func(ctx context.Context, key string, relatedIDs []string) error
+	}{arg1, arg2, arg3})
 	stub := fake.MapIDRelationsStub
 	fakeReturns := fake.mapIDRelationsReturns
-	fake.recordInvocation("MapIDRelations", []interface{}{arg1, arg2})
+	fake.recordInvocation("MapIDRelations", []interface{}{arg1, arg2, arg3})
 	fake.mapIDRelationsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1
@@ -418,26 +432,26 @@ func (fake *RelationStore) MapIDRelations(arg1 context.Context, arg2 func(ctx co
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) MapIDRelationsCallCount() int {
+func (fake *RelationStoreTxString) MapIDRelationsCallCount() int {
 	fake.mapIDRelationsMutex.RLock()
 	defer fake.mapIDRelationsMutex.RUnlock()
 	return len(fake.mapIDRelationsArgsForCall)
 }
 
-func (fake *RelationStore) MapIDRelationsCalls(stub func(context.Context, func(ctx context.Context, key string, relatedIDs []string) error) error) {
+func (fake *RelationStoreTxString) MapIDRelationsCalls(stub func(context.Context, kv.Tx, func(ctx context.Context, key string, relatedIDs []string) error) error) {
 	fake.mapIDRelationsMutex.Lock()
 	defer fake.mapIDRelationsMutex.Unlock()
 	fake.MapIDRelationsStub = stub
 }
 
-func (fake *RelationStore) MapIDRelationsArgsForCall(i int) (context.Context, func(ctx context.Context, key string, relatedIDs []string) error) {
+func (fake *RelationStoreTxString) MapIDRelationsArgsForCall(i int) (context.Context, kv.Tx, func(ctx context.Context, key string, relatedIDs []string) error) {
 	fake.mapIDRelationsMutex.RLock()
 	defer fake.mapIDRelationsMutex.RUnlock()
 	argsForCall := fake.mapIDRelationsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) MapIDRelationsReturns(result1 error) {
+func (fake *RelationStoreTxString) MapIDRelationsReturns(result1 error) {
 	fake.mapIDRelationsMutex.Lock()
 	defer fake.mapIDRelationsMutex.Unlock()
 	fake.MapIDRelationsStub = nil
@@ -446,7 +460,7 @@ func (fake *RelationStore) MapIDRelationsReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) MapIDRelationsReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) MapIDRelationsReturnsOnCall(i int, result1 error) {
 	fake.mapIDRelationsMutex.Lock()
 	defer fake.mapIDRelationsMutex.Unlock()
 	fake.MapIDRelationsStub = nil
@@ -460,19 +474,20 @@ func (fake *RelationStore) MapIDRelationsReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) MapRelationIDs(arg1 context.Context, arg2 func(ctx context.Context, key string, ids []string) error) error {
+func (fake *RelationStoreTxString) MapRelationIDs(arg1 context.Context, arg2 kv.Tx, arg3 func(ctx context.Context, key string, ids []string) error) error {
 	fake.mapRelationIDsMutex.Lock()
 	ret, specificReturn := fake.mapRelationIDsReturnsOnCall[len(fake.mapRelationIDsArgsForCall)]
 	fake.mapRelationIDsArgsForCall = append(fake.mapRelationIDsArgsForCall, struct {
 		arg1 context.Context
-		arg2 func(ctx context.Context, key string, ids []string) error
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 func(ctx context.Context, key string, ids []string) error
+	}{arg1, arg2, arg3})
 	stub := fake.MapRelationIDsStub
 	fakeReturns := fake.mapRelationIDsReturns
-	fake.recordInvocation("MapRelationIDs", []interface{}{arg1, arg2})
+	fake.recordInvocation("MapRelationIDs", []interface{}{arg1, arg2, arg3})
 	fake.mapRelationIDsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1
@@ -480,26 +495,26 @@ func (fake *RelationStore) MapRelationIDs(arg1 context.Context, arg2 func(ctx co
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) MapRelationIDsCallCount() int {
+func (fake *RelationStoreTxString) MapRelationIDsCallCount() int {
 	fake.mapRelationIDsMutex.RLock()
 	defer fake.mapRelationIDsMutex.RUnlock()
 	return len(fake.mapRelationIDsArgsForCall)
 }
 
-func (fake *RelationStore) MapRelationIDsCalls(stub func(context.Context, func(ctx context.Context, key string, ids []string) error) error) {
+func (fake *RelationStoreTxString) MapRelationIDsCalls(stub func(context.Context, kv.Tx, func(ctx context.Context, key string, ids []string) error) error) {
 	fake.mapRelationIDsMutex.Lock()
 	defer fake.mapRelationIDsMutex.Unlock()
 	fake.MapRelationIDsStub = stub
 }
 
-func (fake *RelationStore) MapRelationIDsArgsForCall(i int) (context.Context, func(ctx context.Context, key string, ids []string) error) {
+func (fake *RelationStoreTxString) MapRelationIDsArgsForCall(i int) (context.Context, kv.Tx, func(ctx context.Context, key string, ids []string) error) {
 	fake.mapRelationIDsMutex.RLock()
 	defer fake.mapRelationIDsMutex.RUnlock()
 	argsForCall := fake.mapRelationIDsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) MapRelationIDsReturns(result1 error) {
+func (fake *RelationStoreTxString) MapRelationIDsReturns(result1 error) {
 	fake.mapRelationIDsMutex.Lock()
 	defer fake.mapRelationIDsMutex.Unlock()
 	fake.MapRelationIDsStub = nil
@@ -508,7 +523,7 @@ func (fake *RelationStore) MapRelationIDsReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) MapRelationIDsReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) MapRelationIDsReturnsOnCall(i int, result1 error) {
 	fake.mapRelationIDsMutex.Lock()
 	defer fake.mapRelationIDsMutex.Unlock()
 	fake.MapRelationIDsStub = nil
@@ -522,19 +537,20 @@ func (fake *RelationStore) MapRelationIDsReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) RelatedIDs(arg1 context.Context, arg2 string) ([]string, error) {
+func (fake *RelationStoreTxString) RelatedIDs(arg1 context.Context, arg2 kv.Tx, arg3 string) ([]string, error) {
 	fake.relatedIDsMutex.Lock()
 	ret, specificReturn := fake.relatedIDsReturnsOnCall[len(fake.relatedIDsArgsForCall)]
 	fake.relatedIDsArgsForCall = append(fake.relatedIDsArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 string
+	}{arg1, arg2, arg3})
 	stub := fake.RelatedIDsStub
 	fakeReturns := fake.relatedIDsReturns
-	fake.recordInvocation("RelatedIDs", []interface{}{arg1, arg2})
+	fake.recordInvocation("RelatedIDs", []interface{}{arg1, arg2, arg3})
 	fake.relatedIDsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2
@@ -542,26 +558,26 @@ func (fake *RelationStore) RelatedIDs(arg1 context.Context, arg2 string) ([]stri
 	return fakeReturns.result1, fakeReturns.result2
 }
 
-func (fake *RelationStore) RelatedIDsCallCount() int {
+func (fake *RelationStoreTxString) RelatedIDsCallCount() int {
 	fake.relatedIDsMutex.RLock()
 	defer fake.relatedIDsMutex.RUnlock()
 	return len(fake.relatedIDsArgsForCall)
 }
 
-func (fake *RelationStore) RelatedIDsCalls(stub func(context.Context, string) ([]string, error)) {
+func (fake *RelationStoreTxString) RelatedIDsCalls(stub func(context.Context, kv.Tx, string) ([]string, error)) {
 	fake.relatedIDsMutex.Lock()
 	defer fake.relatedIDsMutex.Unlock()
 	fake.RelatedIDsStub = stub
 }
 
-func (fake *RelationStore) RelatedIDsArgsForCall(i int) (context.Context, string) {
+func (fake *RelationStoreTxString) RelatedIDsArgsForCall(i int) (context.Context, kv.Tx, string) {
 	fake.relatedIDsMutex.RLock()
 	defer fake.relatedIDsMutex.RUnlock()
 	argsForCall := fake.relatedIDsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) RelatedIDsReturns(result1 []string, result2 error) {
+func (fake *RelationStoreTxString) RelatedIDsReturns(result1 []string, result2 error) {
 	fake.relatedIDsMutex.Lock()
 	defer fake.relatedIDsMutex.Unlock()
 	fake.RelatedIDsStub = nil
@@ -571,7 +587,7 @@ func (fake *RelationStore) RelatedIDsReturns(result1 []string, result2 error) {
 	}{result1, result2}
 }
 
-func (fake *RelationStore) RelatedIDsReturnsOnCall(i int, result1 []string, result2 error) {
+func (fake *RelationStoreTxString) RelatedIDsReturnsOnCall(i int, result1 []string, result2 error) {
 	fake.relatedIDsMutex.Lock()
 	defer fake.relatedIDsMutex.Unlock()
 	fake.RelatedIDsStub = nil
@@ -587,25 +603,26 @@ func (fake *RelationStore) RelatedIDsReturnsOnCall(i int, result1 []string, resu
 	}{result1, result2}
 }
 
-func (fake *RelationStore) Remove(arg1 context.Context, arg2 string, arg3 []string) error {
-	var arg3Copy []string
-	if arg3 != nil {
-		arg3Copy = make([]string, len(arg3))
-		copy(arg3Copy, arg3)
+func (fake *RelationStoreTxString) Remove(arg1 context.Context, arg2 kv.Tx, arg3 string, arg4 []string) error {
+	var arg4Copy []string
+	if arg4 != nil {
+		arg4Copy = make([]string, len(arg4))
+		copy(arg4Copy, arg4)
 	}
 	fake.removeMutex.Lock()
 	ret, specificReturn := fake.removeReturnsOnCall[len(fake.removeArgsForCall)]
 	fake.removeArgsForCall = append(fake.removeArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
-	}{arg1, arg2, arg3Copy})
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
+	}{arg1, arg2, arg3, arg4Copy})
 	stub := fake.RemoveStub
 	fakeReturns := fake.removeReturns
-	fake.recordInvocation("Remove", []interface{}{arg1, arg2, arg3Copy})
+	fake.recordInvocation("Remove", []interface{}{arg1, arg2, arg3, arg4Copy})
 	fake.removeMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2, arg3)
+		return stub(arg1, arg2, arg3, arg4)
 	}
 	if specificReturn {
 		return ret.result1
@@ -613,26 +630,26 @@ func (fake *RelationStore) Remove(arg1 context.Context, arg2 string, arg3 []stri
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) RemoveCallCount() int {
+func (fake *RelationStoreTxString) RemoveCallCount() int {
 	fake.removeMutex.RLock()
 	defer fake.removeMutex.RUnlock()
 	return len(fake.removeArgsForCall)
 }
 
-func (fake *RelationStore) RemoveCalls(stub func(context.Context, string, []string) error) {
+func (fake *RelationStoreTxString) RemoveCalls(stub func(context.Context, kv.Tx, string, []string) error) {
 	fake.removeMutex.Lock()
 	defer fake.removeMutex.Unlock()
 	fake.RemoveStub = stub
 }
 
-func (fake *RelationStore) RemoveArgsForCall(i int) (context.Context, string, []string) {
+func (fake *RelationStoreTxString) RemoveArgsForCall(i int) (context.Context, kv.Tx, string, []string) {
 	fake.removeMutex.RLock()
 	defer fake.removeMutex.RUnlock()
 	argsForCall := fake.removeArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4
 }
 
-func (fake *RelationStore) RemoveReturns(result1 error) {
+func (fake *RelationStoreTxString) RemoveReturns(result1 error) {
 	fake.removeMutex.Lock()
 	defer fake.removeMutex.Unlock()
 	fake.RemoveStub = nil
@@ -641,7 +658,7 @@ func (fake *RelationStore) RemoveReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) RemoveReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) RemoveReturnsOnCall(i int, result1 error) {
 	fake.removeMutex.Lock()
 	defer fake.removeMutex.Unlock()
 	fake.RemoveStub = nil
@@ -655,25 +672,26 @@ func (fake *RelationStore) RemoveReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) Replace(arg1 context.Context, arg2 string, arg3 []string) error {
-	var arg3Copy []string
-	if arg3 != nil {
-		arg3Copy = make([]string, len(arg3))
-		copy(arg3Copy, arg3)
+func (fake *RelationStoreTxString) Replace(arg1 context.Context, arg2 kv.Tx, arg3 string, arg4 []string) error {
+	var arg4Copy []string
+	if arg4 != nil {
+		arg4Copy = make([]string, len(arg4))
+		copy(arg4Copy, arg4)
 	}
 	fake.replaceMutex.Lock()
 	ret, specificReturn := fake.replaceReturnsOnCall[len(fake.replaceArgsForCall)]
 	fake.replaceArgsForCall = append(fake.replaceArgsForCall, struct {
 		arg1 context.Context
-		arg2 string
-		arg3 []string
-	}{arg1, arg2, arg3Copy})
+		arg2 kv.Tx
+		arg3 string
+		arg4 []string
+	}{arg1, arg2, arg3, arg4Copy})
 	stub := fake.ReplaceStub
 	fakeReturns := fake.replaceReturns
-	fake.recordInvocation("Replace", []interface{}{arg1, arg2, arg3Copy})
+	fake.recordInvocation("Replace", []interface{}{arg1, arg2, arg3, arg4Copy})
 	fake.replaceMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2, arg3)
+		return stub(arg1, arg2, arg3, arg4)
 	}
 	if specificReturn {
 		return ret.result1
@@ -681,26 +699,26 @@ func (fake *RelationStore) Replace(arg1 context.Context, arg2 string, arg3 []str
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) ReplaceCallCount() int {
+func (fake *RelationStoreTxString) ReplaceCallCount() int {
 	fake.replaceMutex.RLock()
 	defer fake.replaceMutex.RUnlock()
 	return len(fake.replaceArgsForCall)
 }
 
-func (fake *RelationStore) ReplaceCalls(stub func(context.Context, string, []string) error) {
+func (fake *RelationStoreTxString) ReplaceCalls(stub func(context.Context, kv.Tx, string, []string) error) {
 	fake.replaceMutex.Lock()
 	defer fake.replaceMutex.Unlock()
 	fake.ReplaceStub = stub
 }
 
-func (fake *RelationStore) ReplaceArgsForCall(i int) (context.Context, string, []string) {
+func (fake *RelationStoreTxString) ReplaceArgsForCall(i int) (context.Context, kv.Tx, string, []string) {
 	fake.replaceMutex.RLock()
 	defer fake.replaceMutex.RUnlock()
 	argsForCall := fake.replaceArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4
 }
 
-func (fake *RelationStore) ReplaceReturns(result1 error) {
+func (fake *RelationStoreTxString) ReplaceReturns(result1 error) {
 	fake.replaceMutex.Lock()
 	defer fake.replaceMutex.Unlock()
 	fake.ReplaceStub = nil
@@ -709,7 +727,7 @@ func (fake *RelationStore) ReplaceReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) ReplaceReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) ReplaceReturnsOnCall(i int, result1 error) {
 	fake.replaceMutex.Lock()
 	defer fake.replaceMutex.Unlock()
 	fake.ReplaceStub = nil
@@ -723,19 +741,20 @@ func (fake *RelationStore) ReplaceReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) StreamIDs(arg1 context.Context, arg2 chan<- string) error {
+func (fake *RelationStoreTxString) StreamIDs(arg1 context.Context, arg2 kv.Tx, arg3 chan<- string) error {
 	fake.streamIDsMutex.Lock()
 	ret, specificReturn := fake.streamIDsReturnsOnCall[len(fake.streamIDsArgsForCall)]
 	fake.streamIDsArgsForCall = append(fake.streamIDsArgsForCall, struct {
 		arg1 context.Context
-		arg2 chan<- string
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 chan<- string
+	}{arg1, arg2, arg3})
 	stub := fake.StreamIDsStub
 	fakeReturns := fake.streamIDsReturns
-	fake.recordInvocation("StreamIDs", []interface{}{arg1, arg2})
+	fake.recordInvocation("StreamIDs", []interface{}{arg1, arg2, arg3})
 	fake.streamIDsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1
@@ -743,26 +762,26 @@ func (fake *RelationStore) StreamIDs(arg1 context.Context, arg2 chan<- string) e
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) StreamIDsCallCount() int {
+func (fake *RelationStoreTxString) StreamIDsCallCount() int {
 	fake.streamIDsMutex.RLock()
 	defer fake.streamIDsMutex.RUnlock()
 	return len(fake.streamIDsArgsForCall)
 }
 
-func (fake *RelationStore) StreamIDsCalls(stub func(context.Context, chan<- string) error) {
+func (fake *RelationStoreTxString) StreamIDsCalls(stub func(context.Context, kv.Tx, chan<- string) error) {
 	fake.streamIDsMutex.Lock()
 	defer fake.streamIDsMutex.Unlock()
 	fake.StreamIDsStub = stub
 }
 
-func (fake *RelationStore) StreamIDsArgsForCall(i int) (context.Context, chan<- string) {
+func (fake *RelationStoreTxString) StreamIDsArgsForCall(i int) (context.Context, kv.Tx, chan<- string) {
 	fake.streamIDsMutex.RLock()
 	defer fake.streamIDsMutex.RUnlock()
 	argsForCall := fake.streamIDsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) StreamIDsReturns(result1 error) {
+func (fake *RelationStoreTxString) StreamIDsReturns(result1 error) {
 	fake.streamIDsMutex.Lock()
 	defer fake.streamIDsMutex.Unlock()
 	fake.StreamIDsStub = nil
@@ -771,7 +790,7 @@ func (fake *RelationStore) StreamIDsReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) StreamIDsReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) StreamIDsReturnsOnCall(i int, result1 error) {
 	fake.streamIDsMutex.Lock()
 	defer fake.streamIDsMutex.Unlock()
 	fake.StreamIDsStub = nil
@@ -785,19 +804,20 @@ func (fake *RelationStore) StreamIDsReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) StreamRelatedIDs(arg1 context.Context, arg2 chan<- string) error {
+func (fake *RelationStoreTxString) StreamRelatedIDs(arg1 context.Context, arg2 kv.Tx, arg3 chan<- string) error {
 	fake.streamRelatedIDsMutex.Lock()
 	ret, specificReturn := fake.streamRelatedIDsReturnsOnCall[len(fake.streamRelatedIDsArgsForCall)]
 	fake.streamRelatedIDsArgsForCall = append(fake.streamRelatedIDsArgsForCall, struct {
 		arg1 context.Context
-		arg2 chan<- string
-	}{arg1, arg2})
+		arg2 kv.Tx
+		arg3 chan<- string
+	}{arg1, arg2, arg3})
 	stub := fake.StreamRelatedIDsStub
 	fakeReturns := fake.streamRelatedIDsReturns
-	fake.recordInvocation("StreamRelatedIDs", []interface{}{arg1, arg2})
+	fake.recordInvocation("StreamRelatedIDs", []interface{}{arg1, arg2, arg3})
 	fake.streamRelatedIDsMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2)
+		return stub(arg1, arg2, arg3)
 	}
 	if specificReturn {
 		return ret.result1
@@ -805,26 +825,26 @@ func (fake *RelationStore) StreamRelatedIDs(arg1 context.Context, arg2 chan<- st
 	return fakeReturns.result1
 }
 
-func (fake *RelationStore) StreamRelatedIDsCallCount() int {
+func (fake *RelationStoreTxString) StreamRelatedIDsCallCount() int {
 	fake.streamRelatedIDsMutex.RLock()
 	defer fake.streamRelatedIDsMutex.RUnlock()
 	return len(fake.streamRelatedIDsArgsForCall)
 }
 
-func (fake *RelationStore) StreamRelatedIDsCalls(stub func(context.Context, chan<- string) error) {
+func (fake *RelationStoreTxString) StreamRelatedIDsCalls(stub func(context.Context, kv.Tx, chan<- string) error) {
 	fake.streamRelatedIDsMutex.Lock()
 	defer fake.streamRelatedIDsMutex.Unlock()
 	fake.StreamRelatedIDsStub = stub
 }
 
-func (fake *RelationStore) StreamRelatedIDsArgsForCall(i int) (context.Context, chan<- string) {
+func (fake *RelationStoreTxString) StreamRelatedIDsArgsForCall(i int) (context.Context, kv.Tx, chan<- string) {
 	fake.streamRelatedIDsMutex.RLock()
 	defer fake.streamRelatedIDsMutex.RUnlock()
 	argsForCall := fake.streamRelatedIDsArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2
+	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3
 }
 
-func (fake *RelationStore) StreamRelatedIDsReturns(result1 error) {
+func (fake *RelationStoreTxString) StreamRelatedIDsReturns(result1 error) {
 	fake.streamRelatedIDsMutex.Lock()
 	defer fake.streamRelatedIDsMutex.Unlock()
 	fake.StreamRelatedIDsStub = nil
@@ -833,7 +853,7 @@ func (fake *RelationStore) StreamRelatedIDsReturns(result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) StreamRelatedIDsReturnsOnCall(i int, result1 error) {
+func (fake *RelationStoreTxString) StreamRelatedIDsReturnsOnCall(i int, result1 error) {
 	fake.streamRelatedIDsMutex.Lock()
 	defer fake.streamRelatedIDsMutex.Unlock()
 	fake.StreamRelatedIDsStub = nil
@@ -847,7 +867,7 @@ func (fake *RelationStore) StreamRelatedIDsReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *RelationStore) Invocations() map[string][][]interface{} {
+func (fake *RelationStoreTxString) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
 	fake.addMutex.RLock()
@@ -879,7 +899,7 @@ func (fake *RelationStore) Invocations() map[string][][]interface{} {
 	return copiedInvocations
 }
 
-func (fake *RelationStore) recordInvocation(key string, args []interface{}) {
+func (fake *RelationStoreTxString) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
 	if fake.invocations == nil {
@@ -891,4 +911,4 @@ func (fake *RelationStore) recordInvocation(key string, args []interface{}) {
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ kv.RelationStoreString = new(RelationStore)
+var _ kv.RelationStoreTxString = new(RelationStoreTxString)
