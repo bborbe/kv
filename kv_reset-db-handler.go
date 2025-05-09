@@ -8,12 +8,24 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"sync"
+
+	"github.com/golang/glog"
 )
 
 // NewResetHandler returns a http.Handler
 // that allow delete the complete database
 func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
+	var lock sync.Mutex
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
+		glog.V(2).Infof("reset db started")
+
+		if lock.TryLock() == false {
+			http.Error(resp, fmt.Sprintf("reset db already running"), http.StatusInternalServerError)
+			return
+		}
+		defer lock.Unlock()
+
 		defer cancel()
 		if err := db.Close(); err != nil {
 			http.Error(resp, fmt.Sprintf("reset db failed: %v", err), http.StatusInternalServerError)
@@ -24,6 +36,7 @@ func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
-		fmt.Fprint(resp, "reset db successful")
+		fmt.Fprintln(resp, "reset db successful")
+		glog.V(2).Infof("reset db successful")
 	})
 }
