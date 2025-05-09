@@ -36,7 +36,7 @@ func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
-		fmt.Fprintln(resp, "reset db successful")
+		_, _ = fmt.Fprintln(resp, "reset db successful")
 		glog.V(2).Infof("reset db successful")
 	})
 }

@@ -42,7 +42,7 @@ func NewResetBucketHandler(db DB, cancel context.CancelFunc) http.Handler {
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
-		fmt.Fprintf(resp, "reset bucket %s successful\n", bucketName)
+		_, _ = fmt.Fprintf(resp, "reset bucket %s successful\n", bucketName)
 		glog.V(2).Infof("reset bucket %s successful", bucketName)
 		cancel()
 	})
