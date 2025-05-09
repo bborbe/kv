@@ -21,19 +21,19 @@ func NewResetBucketHandler(db DB, cancel context.CancelFunc) http.Handler {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 		vars := mux.Vars(req)
 		bucketName := BucketName(vars["BucketName"])
-		glog.V(2).Infof("reset bucket %s started", bucketName)
-
-		if lock.TryLock() == false {
-			http.Error(resp, fmt.Sprintf("reset db already running"), http.StatusInternalServerError)
-			return
-		}
-		defer lock.Unlock()
-
 		ctx := context.Background()
 		if len(bucketName) == 0 {
 			http.Error(resp, "parameter bucket missing", http.StatusBadRequest)
 			return
 		}
+		if lock.TryLock() == false {
+			glog.V(2).Infof("reset bucket %s running", bucketName)
+			http.Error(resp, fmt.Sprintf("reset bucket %s already running", bucketName), http.StatusInternalServerError)
+			return
+		}
+		defer lock.Unlock()
+		glog.V(2).Infof("reset bucket %s started", bucketName)
+
 		err := db.Update(ctx, func(ctx context.Context, tx Tx) error {
 			return tx.DeleteBucket(ctx, bucketName)
 		})
