@@ -391,16 +391,6 @@ func (fake *Bucket) PutReturnsOnCall(i int, result1 error) {
 func (fake *Bucket) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.deleteMutex.RLock()
-	defer fake.deleteMutex.RUnlock()
-	fake.getMutex.RLock()
-	defer fake.getMutex.RUnlock()
-	fake.iteratorMutex.RLock()
-	defer fake.iteratorMutex.RUnlock()
-	fake.iteratorReverseMutex.RLock()
-	defer fake.iteratorReverseMutex.RUnlock()
-	fake.putMutex.RLock()
-	defer fake.putMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

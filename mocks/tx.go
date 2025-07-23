@@ -404,16 +404,6 @@ func (fake *Tx) ListBucketNamesReturnsOnCall(i int, result1 kv.BucketNames, resu
 func (fake *Tx) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.bucketMutex.RLock()
-	defer fake.bucketMutex.RUnlock()
-	fake.createBucketMutex.RLock()
-	defer fake.createBucketMutex.RUnlock()
-	fake.createBucketIfNotExistsMutex.RLock()
-	defer fake.createBucketIfNotExistsMutex.RUnlock()
-	fake.deleteBucketMutex.RLock()
-	defer fake.deleteBucketMutex.RUnlock()
-	fake.listBucketNamesMutex.RLock()
-	defer fake.listBucketNamesMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

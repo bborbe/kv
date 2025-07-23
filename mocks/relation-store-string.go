@@ -850,28 +850,6 @@ func (fake *RelationStoreString) StreamRelatedIDsReturnsOnCall(i int, result1 er
 func (fake *RelationStoreString) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.addMutex.RLock()
-	defer fake.addMutex.RUnlock()
-	fake.deleteMutex.RLock()
-	defer fake.deleteMutex.RUnlock()
-	fake.iDsMutex.RLock()
-	defer fake.iDsMutex.RUnlock()
-	fake.invertMutex.RLock()
-	defer fake.invertMutex.RUnlock()
-	fake.mapIDRelationsMutex.RLock()
-	defer fake.mapIDRelationsMutex.RUnlock()
-	fake.mapRelationIDsMutex.RLock()
-	defer fake.mapRelationIDsMutex.RUnlock()
-	fake.relatedIDsMutex.RLock()
-	defer fake.relatedIDsMutex.RUnlock()
-	fake.removeMutex.RLock()
-	defer fake.removeMutex.RUnlock()
-	fake.replaceMutex.RLock()
-	defer fake.replaceMutex.RUnlock()
-	fake.streamIDsMutex.RLock()
-	defer fake.streamIDsMutex.RUnlock()
-	fake.streamRelatedIDsMutex.RLock()
-	defer fake.streamRelatedIDsMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

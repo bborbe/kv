@@ -267,18 +267,6 @@ func (fake *Iterator) ValidReturnsOnCall(i int, result1 bool) {
 func (fake *Iterator) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.closeMutex.RLock()
-	defer fake.closeMutex.RUnlock()
-	fake.itemMutex.RLock()
-	defer fake.itemMutex.RUnlock()
-	fake.nextMutex.RLock()
-	defer fake.nextMutex.RUnlock()
-	fake.rewindMutex.RLock()
-	defer fake.rewindMutex.RUnlock()
-	fake.seekMutex.RLock()
-	defer fake.seekMutex.RUnlock()
-	fake.validMutex.RLock()
-	defer fake.validMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value
