@@ -12,7 +12,7 @@ exclude (
 
 require (
 	github.com/bborbe/errors v1.3.0
-	github.com/bborbe/http v1.13.1
+	github.com/bborbe/http v1.14.0
 	github.com/bborbe/log v1.2.1
 	github.com/bborbe/run v1.7.5
 	github.com/golang/glog v1.2.5
