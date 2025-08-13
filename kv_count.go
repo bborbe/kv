@@ -8,6 +8,7 @@ import (
 	"context"
 )
 
+// Count returns the total number of items in the bucket. Returns -1 if context is cancelled.
 func Count(ctx context.Context, bucket Bucket) (int64, error) {
 	var counter int64
 	it := bucket.Iterator()

@@ -10,30 +10,37 @@ import (
 	"github.com/bborbe/errors"
 )
 
+// StoreMapper provides mapping functionality over all key-value pairs in a store.
 type StoreMapper[KEY ~[]byte | ~string, OBJECT any] interface {
 	Map(ctx context.Context, fn func(ctx context.Context, key KEY, object OBJECT) error) error
 }
 
+// StoreAdder provides functionality to add objects to a store.
 type StoreAdder[KEY ~[]byte | ~string, OBJECT any] interface {
 	Add(ctx context.Context, key KEY, object OBJECT) error
 }
 
+// StoreRemover provides functionality to remove objects from a store.
 type StoreRemover[KEY ~[]byte | ~string] interface {
 	Remove(ctx context.Context, key KEY) error
 }
 
+// StoreGetter provides functionality to retrieve objects from a store.
 type StoreGetter[KEY ~[]byte | ~string, OBJECT any] interface {
 	Get(ctx context.Context, key KEY) (*OBJECT, error)
 }
 
+// StoreExists provides functionality to check object existence in a store.
 type StoreExists[KEY ~[]byte | ~string, OBJECT any] interface {
 	Exists(ctx context.Context, key KEY) (bool, error)
 }
 
+// StoreStream provides functionality to stream all objects from a store.
 type StoreStream[KEY ~[]byte | ~string, OBJECT any] interface {
 	Stream(ctx context.Context, ch chan<- OBJECT) error
 }
 
+// Store provides a complete type-safe key-value store interface combining all store operations.
 type Store[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreAdder[KEY, OBJECT]
 	StoreRemover[KEY]

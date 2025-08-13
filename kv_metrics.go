@@ -8,11 +8,13 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+// Metrics provides monitoring capabilities for database operations using Prometheus.
 type Metrics interface {
 	DbUpdateInc()
 	DbViewInc()
 }
 
+// NewMetrics creates a new Metrics instance with default Prometheus counters.
 func NewMetrics() Metrics {
 	return &metrics{}
 }

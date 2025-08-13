@@ -12,30 +12,37 @@ import (
 	"github.com/golang/glog"
 )
 
+// StoreMapperTx provides mapping functionality over all key-value pairs within a transaction.
 type StoreMapperTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Map(ctx context.Context, tx Tx, fn func(ctx context.Context, key KEY, object OBJECT) error) error
 }
 
+// StoreAdderTx provides functionality to add objects within a transaction.
 type StoreAdderTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Add(ctx context.Context, tx Tx, key KEY, object OBJECT) error
 }
 
+// StoreRemoverTx provides functionality to remove objects within a transaction.
 type StoreRemoverTx[KEY ~[]byte | ~string] interface {
 	Remove(ctx context.Context, tx Tx, key KEY) error
 }
 
+// StoreGetterTx provides functionality to retrieve objects within a transaction.
 type StoreGetterTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Get(ctx context.Context, tx Tx, key KEY) (*OBJECT, error)
 }
 
+// StoreExistsTx provides functionality to check object existence within a transaction.
 type StoreExistsTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Exists(ctx context.Context, tx Tx, key KEY) (bool, error)
 }
 
+// StoreStreamTx provides functionality to stream all objects within a transaction.
 type StoreStreamTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Stream(ctx context.Context, tx Tx, ch chan<- OBJECT) error
 }
 
+// StoreTx provides a complete type-safe key-value store interface for transaction-based operations.
 type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreAdderTx[KEY, OBJECT]
 	StoreRemoverTx[KEY]
@@ -45,6 +52,7 @@ type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreStreamTx[KEY, OBJECT]
 }
 
+// NewStoreTx creates a new type-safe transaction-based store for the specified bucket.
 func NewStoreTx[KEY ~[]byte | ~string, OBJECT any](bucketName BucketName) StoreTx[KEY, OBJECT] {
 	return &storeTx[KEY, OBJECT]{
 		bucketName: bucketName,

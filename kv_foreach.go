@@ -10,6 +10,8 @@ import (
 	"github.com/bborbe/errors"
 )
 
+// ForEach iterates through all items in the bucket and executes the provided function for each item.
+// Iteration stops early if the context is cancelled or if the function returns an error.
 func ForEach(
 	ctx context.Context,
 	bucket Bucket,

@@ -5,6 +5,8 @@
 package kv
 
 //counterfeiter:generate -o mocks/iterator.go --fake-name Iterator . Iterator
+
+// Iterator provides sequential access to items in a bucket with navigation controls.
 type Iterator interface {
 	Close()
 	Item() Item

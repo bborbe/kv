@@ -8,6 +8,7 @@ import (
 	"context"
 )
 
+// NewDBWithMetrics wraps a DB instance with metrics collection for monitoring database operations.
 func NewDBWithMetrics(
 	db DB,
 	metrics Metrics,

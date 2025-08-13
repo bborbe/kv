@@ -13,6 +13,8 @@ import (
 var KeyNotFoundError = errors.New("key not found")
 
 //counterfeiter:generate -o mocks/bucket.go --fake-name Bucket . Bucket
+
+// Bucket represents a key-value bucket within a transaction that supports CRUD operations and iteration.
 type Bucket interface {
 	Put(ctx context.Context, key []byte, value []byte) error
 	Get(ctx context.Context, bytes []byte) (Item, error)

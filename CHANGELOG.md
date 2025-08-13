@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.14.4
+
+- Add comprehensive GoDoc documentation for all exported interfaces, types, and functions
+- Improve API documentation coverage for better developer experience
+- Document bucket operations, store interfaces, transaction handling, and metrics
+- Add usage examples and parameter descriptions to public APIs
+
 ## v1.14.3
 
 - improve README with usage example and installation instructions

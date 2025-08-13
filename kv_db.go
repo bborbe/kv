@@ -9,9 +9,12 @@ import (
 	"errors"
 )
 
+// TransactionAlreadyOpenError is returned when attempting to open a transaction while one is already active.
 var TransactionAlreadyOpenError = errors.New("transaction already open")
 
 //counterfeiter:generate -o mocks/db.go --fake-name DB . DB
+
+// DB represents a key-value database that supports transactions and lifecycle management.
 type DB interface {
 	// Update opens a write transaction
 	Update(ctx context.Context, fn func(ctx context.Context, tx Tx) error) error

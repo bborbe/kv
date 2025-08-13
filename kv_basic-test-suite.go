@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+// BasicTestSuite provides a comprehensive test suite for basic database operations that can be reused across different KV implementations.
 func BasicTestSuite(provider Provider) {
 	GinkgoHelper()
 	Context("Basic", func() {

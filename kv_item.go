@@ -5,12 +5,15 @@
 package kv
 
 //counterfeiter:generate -o mocks/item.go --fake-name Item . Item
+
+// Item represents a key-value pair retrieved from a bucket with existence checking.
 type Item interface {
 	Exists() bool
 	Key() []byte
 	Value(fn func(val []byte) error) error
 }
 
+// NewByteItem creates a new Item from raw byte slices for key and value.
 func NewByteItem(
 	key []byte,
 	value []byte,
