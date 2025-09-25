@@ -236,4 +236,34 @@ var _ = Describe("Store", func() {
 			Expect(err).To(BeNil())
 		})
 	})
+
+	Describe("List", func() {
+		It("returns list of all objects", func() {
+			tx.BucketReturns(bucket, nil)
+			iterator := &mocks.Iterator{}
+			bucket.IteratorReturns(iterator)
+			iterator.ValidReturns(false)
+
+			db.ViewStub = func(ctx context.Context, fn func(context.Context, kv.Tx) error) error {
+				return fn(ctx, tx)
+			}
+
+			objects, err := store.List(ctx)
+			Expect(err).To(BeNil())
+			Expect(objects).NotTo(BeNil())
+			Expect(len(objects)).To(Equal(0))
+			Expect(db.ViewCallCount()).To(Equal(1))
+		})
+
+		It("returns error when Map fails", func() {
+			expectedErr := errors.New("map failed")
+
+			db.ViewReturns(expectedErr)
+
+			objects, err := store.List(ctx)
+			Expect(err).NotTo(BeNil())
+			Expect(err.Error()).To(ContainSubstring("map failed"))
+			Expect(objects).To(BeNil())
+		})
+	})
 })

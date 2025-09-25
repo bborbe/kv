@@ -40,6 +40,11 @@ type StoreStream[KEY ~[]byte | ~string, OBJECT any] interface {
 	Stream(ctx context.Context, ch chan<- OBJECT) error
 }
 
+// StoreList provides functionality to list all objects from a store.
+type StoreList[KEY ~[]byte | ~string, OBJECT any] interface {
+	List(ctx context.Context) ([]OBJECT, error)
+}
+
 // Store provides a complete type-safe key-value store interface combining all store operations.
 type Store[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreAdder[KEY, OBJECT]
@@ -48,6 +53,7 @@ type Store[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreMapper[KEY, OBJECT]
 	StoreExists[KEY, OBJECT]
 	StoreStream[KEY, OBJECT]
+	StoreList[KEY, OBJECT]
 }
 
 // NewStore returns a Store
@@ -124,4 +130,16 @@ func (s store[KEY, OBJECT]) Stream(ctx context.Context, ch chan<- OBJECT) error 
 			return nil
 		}
 	})
+}
+
+func (s store[KEY, OBJECT]) List(ctx context.Context) ([]OBJECT, error) {
+	objects := make([]OBJECT, 0)
+	err := s.Map(ctx, func(ctx context.Context, key KEY, object OBJECT) error {
+		objects = append(objects, object)
+		return nil
+	})
+	if err != nil {
+		return nil, errors.Wrapf(ctx, err, "map failed")
+	}
+	return objects, nil
 }

@@ -409,4 +409,68 @@ var _ = Describe("StoreTx", func() {
 			Expect(err).To(Equal(context.Canceled))
 		})
 	})
+
+	Describe("List", func() {
+		BeforeEach(func() {
+			tx.BucketReturns(bucket, nil)
+			bucket.IteratorReturns(iterator)
+		})
+
+		It("returns list of all objects", func() {
+			testObj1 := TestObject{Name: "John", Age: 30}
+			testObj2 := TestObject{Name: "Jane", Age: 25}
+
+			data1, _ := json.Marshal(testObj1)
+			data2, _ := json.Marshal(testObj2)
+
+			callCount := 0
+			iterator.ValidStub = func() bool {
+				callCount++
+				return callCount <= 2
+			}
+
+			itemCallCount := 0
+			iterator.ItemStub = func() kv.Item {
+				itemCallCount++
+				mockItem := &mocks.Item{}
+				if itemCallCount == 1 {
+					mockItem.KeyReturns([]byte("key1"))
+					mockItem.ValueStub = func(fn func([]byte) error) error {
+						return fn(data1)
+					}
+				} else {
+					mockItem.KeyReturns([]byte("key2"))
+					mockItem.ValueStub = func(fn func([]byte) error) error {
+						return fn(data2)
+					}
+				}
+				return mockItem
+			}
+
+			objects, err := storeTx.List(ctx, tx)
+			Expect(err).To(BeNil())
+			Expect(objects).NotTo(BeNil())
+			Expect(len(objects)).To(Equal(2))
+			Expect(objects[0]).To(Equal(testObj1))
+			Expect(objects[1]).To(Equal(testObj2))
+		})
+
+		It("returns error when Map fails", func() {
+			tx.BucketReturns(nil, errors.New("bucket error"))
+
+			objects, err := storeTx.List(ctx, tx)
+			Expect(err).NotTo(BeNil())
+			Expect(err.Error()).To(ContainSubstring("map failed"))
+			Expect(objects).To(BeNil())
+		})
+
+		It("returns empty list when no items exist", func() {
+			iterator.ValidReturns(false)
+
+			objects, err := storeTx.List(ctx, tx)
+			Expect(err).To(BeNil())
+			Expect(objects).NotTo(BeNil())
+			Expect(len(objects)).To(Equal(0))
+		})
+	})
 })

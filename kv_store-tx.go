@@ -42,6 +42,11 @@ type StoreStreamTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Stream(ctx context.Context, tx Tx, ch chan<- OBJECT) error
 }
 
+// StoreListTx provides functionality to list all objects within a transaction.
+type StoreListTx[KEY ~[]byte | ~string, OBJECT any] interface {
+	List(ctx context.Context, tx Tx) ([]OBJECT, error)
+}
+
 // StoreTx provides a complete type-safe key-value store interface for transaction-based operations.
 type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreAdderTx[KEY, OBJECT]
@@ -50,6 +55,7 @@ type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreMapperTx[KEY, OBJECT]
 	StoreExistsTx[KEY, OBJECT]
 	StoreStreamTx[KEY, OBJECT]
+	StoreListTx[KEY, OBJECT]
 }
 
 // NewStoreTx creates a new type-safe transaction-based store for the specified bucket.
@@ -176,4 +182,16 @@ func (s storeTx[KEY, OBJECT]) Stream(ctx context.Context, tx Tx, ch chan<- OBJEC
 			return nil
 		}
 	})
+}
+
+func (s storeTx[KEY, OBJECT]) List(ctx context.Context, tx Tx) ([]OBJECT, error) {
+	objects := make([]OBJECT, 0)
+	err := s.Map(ctx, tx, func(ctx context.Context, key KEY, object OBJECT) error {
+		objects = append(objects, object)
+		return nil
+	})
+	if err != nil {
+		return nil, errors.Wrapf(ctx, err, "map failed")
+	}
+	return objects, nil
 }

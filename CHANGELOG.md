@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.15.0
+
+- Add StoreList interface with List method for retrieving all objects as slice
+- Add StoreListTx interface for transaction-based list operations
+- Implement List methods in Store and StoreTx concrete implementations
+- Add comprehensive test coverage for new List functionality
+- Fix security warning in benchmark random data generator
+
 ## v1.14.4
 
 - Add comprehensive GoDoc documentation for all exported interfaces, types, and functions

@@ -20,7 +20,7 @@ generate:
 test:
 	go test -mod=mod -p=$${GO_TEST_PARALLEL:-1} -cover -race $(shell go list -mod=mod ./... | grep -v /vendor/)
 
-check: vet errcheck vulncheck
+check: vet errcheck vulncheck osv-scanner gosec trivy
 
 vet:
 	go vet -mod=mod $(shell go list -mod=mod ./... | grep -v /vendor/)
@@ -33,3 +33,12 @@ addlicense:
 
 vulncheck:
 	go run -mod=mod golang.org/x/vuln/cmd/govulncheck $(shell go list -mod=mod ./... | grep -v /vendor/)
+
+osv-scanner:
+	go run -mod=mod github.com/google/osv-scanner/cmd/osv-scanner -r .
+
+gosec:
+	go run -mod=mod github.com/securego/gosec/v2/cmd/gosec -exclude=G104 ./...
+
+trivy:
+	trivy fs --scanners vuln,secret --quiet --no-progress --disable-telemetry --exit-code 1 .

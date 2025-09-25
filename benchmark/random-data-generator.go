@@ -14,12 +14,12 @@ var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 func RandString(n int) string {
 	b := make([]rune, n)
 	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+		b[i] = letterRunes[rand.Intn(len(letterRunes))] // #nosec G404 -- weak random is acceptable for benchmark data generation
 	}
 	return string(b)
 }
 
 // ShuffleSlice shuffles a slice in place
 func ShuffleSlice(s []string) {
-	rand.Shuffle(len(s), func(i, j int) { s[i], s[j] = s[j], s[i] })
+	rand.Shuffle(len(s), func(i, j int) { s[i], s[j] = s[j], s[i] }) // #nosec G404 -- weak random is acceptable for benchmark data generation
 }
