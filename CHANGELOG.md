@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.15.3
+
+- Update Go version to 1.25.2
+- Update CI workflow to use Go 1.25.2
+
 ## v1.15.2
 
 - Upgrade osv-scanner from v1 to v2

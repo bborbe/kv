@@ -1,6 +1,6 @@
 module github.com/bborbe/kv
 
-go 1.25.1
+go 1.25.2
 
 exclude (
 	cloud.google.com/go v0.26.0
