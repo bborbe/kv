@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.15.2
+
+- Upgrade osv-scanner from v1 to v2
+- Add config file support for osv-scanner in Makefile
+- go mod update
+
 ## v1.15.1
 
 - go mod update
