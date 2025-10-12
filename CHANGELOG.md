@@ -8,6 +8,17 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.16.0
+
+- Add golangci-lint configuration and integration
+- Update Makefile with new lint target and improved formatting
+- Integrate golines for automatic line length formatting (max 100 chars)
+- Update goimports-reviser to v3
+- Update github.com/bborbe/http from v1.14.2 to v1.15.2
+- Update github.com/onsi/ginkgo/v2 from v2.25.3 to v2.26.0
+- Apply code formatting improvements across codebase
+- Improve error checking exclusions in Makefile
+
 ## v1.15.3
 
 - Update Go version to 1.25.2

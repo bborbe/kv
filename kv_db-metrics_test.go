@@ -24,9 +24,10 @@ var _ = Describe("DBWithMetrics", func() {
 	})
 	Context("Update", func() {
 		JustBeforeEach(func() {
-			err = kv.NewDBWithMetrics(db, kv.NewMetrics()).Update(ctx, func(ctx context.Context, tx kv.Tx) error {
-				return nil
-			})
+			err = kv.NewDBWithMetrics(db, kv.NewMetrics()).
+				Update(ctx, func(ctx context.Context, tx kv.Tx) error {
+					return nil
+				})
 		})
 		It("returns no error", func() {
 			Expect(err).To(BeNil())
@@ -37,9 +38,10 @@ var _ = Describe("DBWithMetrics", func() {
 	})
 	Context("View", func() {
 		JustBeforeEach(func() {
-			err = kv.NewDBWithMetrics(db, kv.NewMetrics()).View(ctx, func(ctx context.Context, tx kv.Tx) error {
-				return nil
-			})
+			err = kv.NewDBWithMetrics(db, kv.NewMetrics()).
+				View(ctx, func(ctx context.Context, tx kv.Tx) error {
+					return nil
+				})
 		})
 		It("returns no error", func() {
 			Expect(err).To(BeNil())

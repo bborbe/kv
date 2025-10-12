@@ -65,7 +65,10 @@ func NewStore[KEY ~[]byte | ~string, OBJECT any](db DB, bucketName BucketName) S
 }
 
 // NewStoreFromTx returns a Store from a existing StoreTx
-func NewStoreFromTx[KEY ~[]byte | ~string, OBJECT any](db DB, storeTx StoreTx[KEY, OBJECT]) Store[KEY, OBJECT] {
+func NewStoreFromTx[KEY ~[]byte | ~string, OBJECT any](
+	db DB,
+	storeTx StoreTx[KEY, OBJECT],
+) Store[KEY, OBJECT] {
 	return &store[KEY, OBJECT]{
 		db:    db,
 		store: storeTx,
@@ -115,7 +118,10 @@ func (s store[KEY, OBJECT]) Exists(ctx context.Context, key KEY) (bool, error) {
 	return object, nil
 }
 
-func (s store[KEY, OBJECT]) Map(ctx context.Context, fn func(ctx context.Context, key KEY, object OBJECT) error) error {
+func (s store[KEY, OBJECT]) Map(
+	ctx context.Context,
+	fn func(ctx context.Context, key KEY, object OBJECT) error,
+) error {
 	return s.db.View(ctx, func(ctx context.Context, tx Tx) error {
 		return s.store.Map(ctx, tx, fn)
 	})

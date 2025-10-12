@@ -24,7 +24,10 @@ type dbWithMetrics struct {
 	db      DB
 }
 
-func (d *dbWithMetrics) Update(ctx context.Context, fn func(ctx context.Context, tx Tx) error) error {
+func (d *dbWithMetrics) Update(
+	ctx context.Context,
+	fn func(ctx context.Context, tx Tx) error,
+) error {
 	d.metrics.DbUpdateInc()
 	return d.db.Update(ctx, func(ctx context.Context, tx Tx) error {
 		return fn(ctx, tx)

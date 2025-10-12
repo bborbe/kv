@@ -32,14 +32,23 @@ type RelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interface 
 	// StreamRelatedIDs return all existing relationIDs
 	StreamRelatedIDs(ctx context.Context, ch chan<- RelatedID) error
 	// MapIDRelations maps all entry to the given func
-	MapIDRelations(ctx context.Context, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error
+	MapIDRelations(
+		ctx context.Context,
+		fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error,
+	) error
 	// MapRelationIDs maps all entry to the given func
-	MapRelationIDs(ctx context.Context, fn func(ctx context.Context, key RelatedID, ids []ID) error) error
+	MapRelationIDs(
+		ctx context.Context,
+		fn func(ctx context.Context, key RelatedID, ids []ID) error,
+	) error
 	// Invert returns the same store with flipped ID <-> RelationID
 	Invert() RelationStore[RelatedID, ID]
 }
 
-func NewRelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](db DB, name string) RelationStore[ID, RelatedID] {
+func NewRelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](
+	db DB,
+	name string,
+) RelationStore[ID, RelatedID] {
 	return NewRelationStoreFromRelationStoreTx(
 		db,
 		NewRelationStoreTx[ID, RelatedID](name),
@@ -61,7 +70,10 @@ type relationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] struct {
 	db              DB
 }
 
-func (r *relationStore[ID, RelatedID]) MapIDRelations(ctx context.Context, fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error) error {
+func (r *relationStore[ID, RelatedID]) MapIDRelations(
+	ctx context.Context,
+	fn func(ctx context.Context, key ID, relatedIDs []RelatedID) error,
+) error {
 	err := r.db.View(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.MapIDRelations(ctx, tx, fn)
 	})
@@ -71,7 +83,10 @@ func (r *relationStore[ID, RelatedID]) MapIDRelations(ctx context.Context, fn fu
 	return nil
 }
 
-func (r *relationStore[ID, RelatedID]) MapRelationIDs(ctx context.Context, fn func(ctx context.Context, key RelatedID, ids []ID) error) error {
+func (r *relationStore[ID, RelatedID]) MapRelationIDs(
+	ctx context.Context,
+	fn func(ctx context.Context, key RelatedID, ids []ID) error,
+) error {
 	err := r.db.View(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.MapRelationIDs(ctx, tx, fn)
 	})
@@ -98,7 +113,10 @@ func (r *relationStore[ID, RelatedID]) StreamIDs(ctx context.Context, ch chan<- 
 	return nil
 }
 
-func (r *relationStore[ID, RelatedID]) StreamRelatedIDs(ctx context.Context, ch chan<- RelatedID) error {
+func (r *relationStore[ID, RelatedID]) StreamRelatedIDs(
+	ctx context.Context,
+	ch chan<- RelatedID,
+) error {
 	err := r.db.View(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.StreamRelatedIDs(ctx, tx, ch)
 	})
@@ -108,7 +126,11 @@ func (r *relationStore[ID, RelatedID]) StreamRelatedIDs(ctx context.Context, ch 
 	return nil
 }
 
-func (r *relationStore[ID, RelatedID]) Add(ctx context.Context, id ID, relatedIds []RelatedID) error {
+func (r *relationStore[ID, RelatedID]) Add(
+	ctx context.Context,
+	id ID,
+	relatedIds []RelatedID,
+) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.Add(ctx, tx, id, relatedIds)
 	})
@@ -118,7 +140,11 @@ func (r *relationStore[ID, RelatedID]) Add(ctx context.Context, id ID, relatedId
 	return nil
 }
 
-func (r *relationStore[ID, RelatedID]) Replace(ctx context.Context, id ID, relatedIds []RelatedID) error {
+func (r *relationStore[ID, RelatedID]) Replace(
+	ctx context.Context,
+	id ID,
+	relatedIds []RelatedID,
+) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.Replace(ctx, tx, id, relatedIds)
 	})
@@ -128,7 +154,11 @@ func (r *relationStore[ID, RelatedID]) Replace(ctx context.Context, id ID, relat
 	return nil
 }
 
-func (r *relationStore[ID, RelatedID]) Remove(ctx context.Context, id ID, relatedIds []RelatedID) error {
+func (r *relationStore[ID, RelatedID]) Remove(
+	ctx context.Context,
+	id ID,
+	relatedIds []RelatedID,
+) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
 		return r.relationStoreTx.Remove(ctx, tx, id, relatedIds)
 	})

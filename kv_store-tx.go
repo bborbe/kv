@@ -14,7 +14,11 @@ import (
 
 // StoreMapperTx provides mapping functionality over all key-value pairs within a transaction.
 type StoreMapperTx[KEY ~[]byte | ~string, OBJECT any] interface {
-	Map(ctx context.Context, tx Tx, fn func(ctx context.Context, key KEY, object OBJECT) error) error
+	Map(
+		ctx context.Context,
+		tx Tx,
+		fn func(ctx context.Context, key KEY, object OBJECT) error,
+	) error
 }
 
 // StoreAdderTx provides functionality to add objects within a transaction.
@@ -137,7 +141,11 @@ func (s storeTx[KEY, OBJECT]) Exists(ctx context.Context, tx Tx, key KEY) (bool,
 	return item.Exists(), nil
 }
 
-func (s storeTx[KEY, OBJECT]) Map(ctx context.Context, tx Tx, fn func(ctx context.Context, key KEY, object OBJECT) error) error {
+func (s storeTx[KEY, OBJECT]) Map(
+	ctx context.Context,
+	tx Tx,
+	fn func(ctx context.Context, key KEY, object OBJECT) error,
+) error {
 	bucket, err := tx.Bucket(ctx, s.bucketName)
 	if err != nil {
 		if errors.Is(err, BucketNotFoundError) {

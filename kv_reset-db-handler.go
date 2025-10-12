@@ -20,7 +20,11 @@ func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 		if lock.TryLock() == false {
 			glog.V(2).Infof("reset db already running")
-			http.Error(resp, fmt.Sprintf("reset db already running"), http.StatusInternalServerError)
+			http.Error(
+				resp,
+				fmt.Sprintf("reset db already running"),
+				http.StatusInternalServerError,
+			)
 			return
 		}
 		defer lock.Unlock()
@@ -28,11 +32,19 @@ func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
 
 		defer cancel()
 		if err := db.Close(); err != nil {
-			http.Error(resp, fmt.Sprintf("reset db failed: %v", err), http.StatusInternalServerError)
+			http.Error(
+				resp,
+				fmt.Sprintf("reset db failed: %v", err),
+				http.StatusInternalServerError,
+			)
 			return
 		}
 		if err := db.Remove(); err != nil {
-			http.Error(resp, fmt.Sprintf("remove db failed: %v", err), http.StatusInternalServerError)
+			http.Error(
+				resp,
+				fmt.Sprintf("remove db failed: %v", err),
+				http.StatusInternalServerError,
+			)
 			return
 		}
 		resp.WriteHeader(http.StatusOK)

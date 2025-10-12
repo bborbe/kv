@@ -105,7 +105,9 @@ var _ = Describe("Reset Handlers", func() {
 					handler.ServeHTTP(secondRecorder, secondRequest)
 
 					Expect(secondRecorder.Code).To(Equal(http.StatusInternalServerError))
-					Expect(secondRecorder.Body.String()).To(ContainSubstring("reset db already running"))
+					Expect(
+						secondRecorder.Body.String(),
+					).To(ContainSubstring("reset db already running"))
 					return nil
 				}
 				db.RemoveReturns(nil)
@@ -146,7 +148,9 @@ var _ = Describe("Reset Handlers", func() {
 				handler.ServeHTTP(recorder, request)
 
 				Expect(recorder.Code).To(Equal(http.StatusOK))
-				Expect(recorder.Body.String()).To(ContainSubstring("reset bucket test-bucket successful"))
+				Expect(
+					recorder.Body.String(),
+				).To(ContainSubstring("reset bucket test-bucket successful"))
 				Expect(db.UpdateCallCount()).To(Equal(1))
 				Expect(tx.DeleteBucketCallCount()).To(Equal(1))
 				_, actualBucketName := tx.DeleteBucketArgsForCall(0)
@@ -222,11 +226,16 @@ var _ = Describe("Reset Handlers", func() {
 					// Simulate a second request while first is running
 					secondRecorder := httptest.NewRecorder()
 					secondRequest := httptest.NewRequest("DELETE", "/bucket/test-bucket", nil)
-					secondRequest = mux.SetURLVars(secondRequest, map[string]string{"BucketName": "test-bucket"})
+					secondRequest = mux.SetURLVars(
+						secondRequest,
+						map[string]string{"BucketName": "test-bucket"},
+					)
 					handler.ServeHTTP(secondRecorder, secondRequest)
 
 					Expect(secondRecorder.Code).To(Equal(http.StatusInternalServerError))
-					Expect(secondRecorder.Body.String()).To(ContainSubstring("reset bucket test-bucket already running"))
+					Expect(
+						secondRecorder.Body.String(),
+					).To(ContainSubstring("reset bucket test-bucket already running"))
 					return fn(ctx, tx)
 				}
 				tx.DeleteBucketReturns(nil)

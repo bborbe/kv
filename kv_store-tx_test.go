@@ -283,10 +283,14 @@ var _ = Describe("StoreTx", func() {
 			}
 
 			var results []TestObject
-			err := storeTx.Map(ctx, tx, func(ctx context.Context, key string, object TestObject) error {
-				results = append(results, object)
-				return nil
-			})
+			err := storeTx.Map(
+				ctx,
+				tx,
+				func(ctx context.Context, key string, object TestObject) error {
+					results = append(results, object)
+					return nil
+				},
+			)
 
 			Expect(err).To(BeNil())
 			Expect(len(results)).To(Equal(2))
@@ -298,10 +302,14 @@ var _ = Describe("StoreTx", func() {
 			tx.BucketReturns(nil, kv.BucketNotFoundError)
 
 			callCount := 0
-			err := storeTx.Map(ctx, tx, func(ctx context.Context, key string, object TestObject) error {
-				callCount++
-				return nil
-			})
+			err := storeTx.Map(
+				ctx,
+				tx,
+				func(ctx context.Context, key string, object TestObject) error {
+					callCount++
+					return nil
+				},
+			)
 
 			Expect(err).To(BeNil())
 			Expect(callCount).To(Equal(0))
@@ -313,9 +321,13 @@ var _ = Describe("StoreTx", func() {
 			cancelCtx, cancel := context.WithCancel(ctx)
 			cancel()
 
-			err := storeTx.Map(cancelCtx, tx, func(ctx context.Context, key string, object TestObject) error {
-				return nil
-			})
+			err := storeTx.Map(
+				cancelCtx,
+				tx,
+				func(ctx context.Context, key string, object TestObject) error {
+					return nil
+				},
+			)
 
 			Expect(err).To(Equal(context.Canceled))
 		})
@@ -333,9 +345,13 @@ var _ = Describe("StoreTx", func() {
 			iterator.ItemReturns(mockItem)
 
 			expectedErr := errors.New("function failed")
-			err := storeTx.Map(ctx, tx, func(ctx context.Context, key string, object TestObject) error {
-				return expectedErr
-			})
+			err := storeTx.Map(
+				ctx,
+				tx,
+				func(ctx context.Context, key string, object TestObject) error {
+					return expectedErr
+				},
+			)
 
 			Expect(err).NotTo(BeNil())
 			Expect(err.Error()).To(ContainSubstring("call fn failed"))
@@ -350,9 +366,13 @@ var _ = Describe("StoreTx", func() {
 			}
 			iterator.ItemReturns(mockItem)
 
-			err := storeTx.Map(ctx, tx, func(ctx context.Context, key string, object TestObject) error {
-				return nil
-			})
+			err := storeTx.Map(
+				ctx,
+				tx,
+				func(ctx context.Context, key string, object TestObject) error {
+					return nil
+				},
+			)
 
 			Expect(err).NotTo(BeNil())
 			Expect(err.Error()).To(ContainSubstring("handle value failed"))
