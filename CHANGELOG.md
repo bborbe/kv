@@ -8,6 +8,16 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.16.1
+
+- Add comprehensive test suite for benchmark package (26 tests, 73% coverage)
+- Add tests for RandString and ShuffleSlice utility functions
+- Add tests for Benchmark core functionality with mock validation
+- Add tests for HTTP handler with parameter parsing
+- Update github.com/bborbe/errors from v1.3.0 to v1.3.1
+- Update github.com/bborbe/run from v1.7.7 to v1.8.0 (adds FuncRunner interface and mock)
+- Update .gitignore patterns for coverage output files
+
 ## v1.16.0
 
 - Add golangci-lint configuration and integration

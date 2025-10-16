@@ -1,5 +1,6 @@
 /vendor
 /CLAUDE.md
 /.claude
-/coverage.out
-/coverage.html
+coverage.out
+coverage.html
+coverprofile.out
