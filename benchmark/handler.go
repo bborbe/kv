@@ -74,7 +74,7 @@ func NewBoltBenchmarkHandler(
 			if err != nil {
 				return errors.Wrapf(ctx, err, "run in background failed")
 			}
-			libhttp.WriteAndGlog(
+			_, _ = libhttp.WriteAndGlog(
 				resp,
 				"benchmark triggered with amount %d, valueLength %d and batchSize %d",
 				amount,

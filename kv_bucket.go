@@ -9,8 +9,11 @@ import (
 	"errors"
 )
 
-// KeyNotFoundError is currently not return, but can be used as common error
-var KeyNotFoundError = errors.New("key not found")
+// ErrKeyNotFound is currently not returned, but can be used as common error.
+var ErrKeyNotFound = errors.New("key not found")
+
+// KeyNotFoundError is deprecated: use ErrKeyNotFound instead.
+var KeyNotFoundError = ErrKeyNotFound
 
 //counterfeiter:generate -o mocks/bucket.go --fake-name Bucket . Bucket
 

@@ -41,15 +41,21 @@ type StoreExistsTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Exists(ctx context.Context, tx Tx, key KEY) (bool, error)
 }
 
-// StoreStreamTx provides functionality to stream all objects within a transaction.
-type StoreStreamTx[KEY ~[]byte | ~string, OBJECT any] interface {
+// StoreStreamerTx provides functionality to stream all objects within a transaction.
+type StoreStreamerTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	Stream(ctx context.Context, tx Tx, ch chan<- OBJECT) error
 }
 
-// StoreListTx provides functionality to list all objects within a transaction.
-type StoreListTx[KEY ~[]byte | ~string, OBJECT any] interface {
+// StoreStreamTx is deprecated: use StoreStreamerTx instead.
+type StoreStreamTx[KEY ~[]byte | ~string, OBJECT any] = StoreStreamerTx[KEY, OBJECT]
+
+// StoreListerTx provides functionality to list all objects within a transaction.
+type StoreListerTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	List(ctx context.Context, tx Tx) ([]OBJECT, error)
 }
+
+// StoreListTx is deprecated: use StoreListerTx instead.
+type StoreListTx[KEY ~[]byte | ~string, OBJECT any] = StoreListerTx[KEY, OBJECT]
 
 // StoreTx provides a complete type-safe key-value store interface for transaction-based operations.
 type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
@@ -58,8 +64,8 @@ type StoreTx[KEY ~[]byte | ~string, OBJECT any] interface {
 	StoreGetterTx[KEY, OBJECT]
 	StoreMapperTx[KEY, OBJECT]
 	StoreExistsTx[KEY, OBJECT]
-	StoreStreamTx[KEY, OBJECT]
-	StoreListTx[KEY, OBJECT]
+	StoreStreamerTx[KEY, OBJECT]
+	StoreListerTx[KEY, OBJECT]
 }
 
 // NewStoreTx creates a new type-safe transaction-based store for the specified bucket.

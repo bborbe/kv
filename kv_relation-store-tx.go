@@ -15,17 +15,17 @@ type RelationStoreTxString RelationStoreTx[string, string]
 
 type RelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interface {
 	// Add the given relationIDs to ID
-	Add(ctx context.Context, tx Tx, id ID, relatedIds []RelatedID) error
+	Add(ctx context.Context, tx Tx, id ID, relatedIDs []RelatedID) error
 	// Replace all relations of id with the given
-	Replace(ctx context.Context, tx Tx, id ID, relatedIds []RelatedID) error
+	Replace(ctx context.Context, tx Tx, id ID, relatedIDs []RelatedID) error
 	// Remove all relation from ID to the given
-	Remove(ctx context.Context, tx Tx, id ID, relatedIds []RelatedID) error
+	Remove(ctx context.Context, tx Tx, id ID, relatedIDs []RelatedID) error
 	// Delete ID and all relations
 	Delete(ctx context.Context, tx Tx, id ID) error
 	// RelatedIDs return all relation of ID
 	RelatedIDs(ctx context.Context, tx Tx, id ID) ([]RelatedID, error)
 	// IDs return all ids of RelatedID
-	IDs(ctx context.Context, tx Tx, relatedId RelatedID) ([]ID, error)
+	IDs(ctx context.Context, tx Tx, relatedID RelatedID) ([]ID, error)
 	// StreamIDs return all existing IDs
 	StreamIDs(ctx context.Context, tx Tx, ch chan<- ID) error
 	// StreamRelatedIDs return all existing relationIDs
@@ -57,23 +57,22 @@ func NewRelationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](
 
 func NewRelationStoreTxWithBucket[ID ~[]byte | ~string, RelatedID ~[]byte | ~string](
 	idRelationBucket StoreTx[ID, []RelatedID],
-	relationIdBucket StoreTx[RelatedID, []ID],
+	relationIDBucket StoreTx[RelatedID, []ID],
 ) RelationStoreTx[ID, RelatedID] {
 	return &relationStoreTx[ID, RelatedID]{
 		idRelationBucket: idRelationBucket,
-		relationIdBucket: relationIdBucket,
+		relationIDBucket: relationIDBucket,
 	}
 }
 
 type relationStoreTx[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] struct {
 	idRelationBucket StoreTx[ID, []RelatedID]
-	relationIdBucket StoreTx[RelatedID, []ID]
-	name             string
+	relationIDBucket StoreTx[RelatedID, []ID]
 }
 
 func (r *relationStoreTx[ID, RelatedID]) Invert() RelationStoreTx[RelatedID, ID] {
 	return NewRelationStoreTxWithBucket[RelatedID, ID](
-		r.relationIdBucket,
+		r.relationIDBucket,
 		r.idRelationBucket,
 	)
 }
@@ -91,30 +90,30 @@ func (r relationStoreTx[ID, RelatedID]) MapRelationIDs(
 	tx Tx,
 	fn func(ctx context.Context, key RelatedID, ids []ID) error,
 ) error {
-	return r.relationIdBucket.Map(ctx, tx, fn)
+	return r.relationIDBucket.Map(ctx, tx, fn)
 }
 
 func (r *relationStoreTx[ID, RelatedID]) Add(
 	ctx context.Context,
 	tx Tx,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	currentRelationIDs, err := r.RelatedIDs(ctx, tx, id)
 	if err != nil {
 		return errors.Wrapf(ctx, err, "get relationIDs failed")
 	}
-	currentRelationIDs = unique(append(currentRelationIDs, relatedIds...))
+	currentRelationIDs = unique(append(currentRelationIDs, relatedIDs...))
 	if err := r.idRelationBucket.Add(ctx, tx, id, currentRelationIDs); err != nil {
 		return errors.Wrapf(ctx, err, "add relationIDs failed")
 	}
-	for _, relatedId := range relatedIds {
-		currentIDs, err := r.IDs(ctx, tx, relatedId)
+	for _, relatedID := range relatedIDs {
+		currentIDs, err := r.IDs(ctx, tx, relatedID)
 		if err != nil {
 			return errors.Wrapf(ctx, err, "get ids failed")
 		}
 		currentIDs = unique(append(currentIDs, id))
-		if err := r.relationIdBucket.Add(ctx, tx, relatedId, currentIDs); err != nil {
+		if err := r.relationIDBucket.Add(ctx, tx, relatedID, currentIDs); err != nil {
 			return errors.Wrapf(ctx, err, "add ids failed")
 		}
 	}
@@ -125,23 +124,23 @@ func (r *relationStoreTx[ID, RelatedID]) Remove(
 	ctx context.Context,
 	tx Tx,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	currentRelationIDs, err := r.RelatedIDs(ctx, tx, id)
 	if err != nil {
 		return errors.Wrapf(ctx, err, "get relationIDs failed")
 	}
-	currentRelationIDs = remove(currentRelationIDs, relatedIds...)
+	currentRelationIDs = remove(currentRelationIDs, relatedIDs...)
 	if err := r.idRelationBucket.Add(ctx, tx, id, currentRelationIDs); err != nil {
 		return errors.Wrapf(ctx, err, "add relationIDs failed")
 	}
-	for _, relatedId := range relatedIds {
-		currentIDs, err := r.IDs(ctx, tx, relatedId)
+	for _, relatedID := range relatedIDs {
+		currentIDs, err := r.IDs(ctx, tx, relatedID)
 		if err != nil {
 			return errors.Wrapf(ctx, err, "get ids failed")
 		}
 		currentIDs = remove(currentIDs, id)
-		if err := r.relationIdBucket.Add(ctx, tx, relatedId, currentIDs); err != nil {
+		if err := r.relationIDBucket.Add(ctx, tx, relatedID, currentIDs); err != nil {
 			return errors.Wrapf(ctx, err, "add ids failed")
 		}
 	}
@@ -166,12 +165,12 @@ func (r *relationStoreTx[ID, RelatedID]) Replace(
 	ctx context.Context,
 	tx Tx,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	if err := r.Delete(ctx, tx, id); err != nil {
 		return err
 	}
-	if err := r.Add(ctx, tx, id, relatedIds); err != nil {
+	if err := r.Add(ctx, tx, id, relatedIDs); err != nil {
 		return err
 	}
 	return nil
@@ -195,9 +194,9 @@ func (r *relationStoreTx[ID, RelatedID]) RelatedIDs(
 func (r *relationStoreTx[ID, RelatedID]) IDs(
 	ctx context.Context,
 	tx Tx,
-	relatedId RelatedID,
+	relatedID RelatedID,
 ) ([]ID, error) {
-	result, err := r.relationIdBucket.Get(ctx, tx, relatedId)
+	result, err := r.relationIDBucket.Get(ctx, tx, relatedID)
 	if err != nil {
 		if errors.Is(err, BucketNotFoundError) || errors.Is(err, KeyNotFoundError) {
 			return nil, nil
@@ -234,7 +233,7 @@ func (r *relationStoreTx[ID, RelatedID]) StreamRelatedIDs(
 	tx Tx,
 	ch chan<- RelatedID,
 ) error {
-	err := r.relationIdBucket.Map(
+	err := r.relationIDBucket.Map(
 		ctx,
 		tx,
 		func(ctx context.Context, key RelatedID, object []ID) error {

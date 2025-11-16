@@ -18,11 +18,11 @@ import (
 func NewResetHandler(db DB, cancel context.CancelFunc) http.Handler {
 	var lock sync.Mutex
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
-		if lock.TryLock() == false {
+		if !lock.TryLock() {
 			glog.V(2).Infof("reset db already running")
 			http.Error(
 				resp,
-				fmt.Sprintf("reset db already running"),
+				"reset db already running",
 				http.StatusInternalServerError,
 			)
 			return

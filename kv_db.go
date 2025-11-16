@@ -9,8 +9,11 @@ import (
 	"errors"
 )
 
-// TransactionAlreadyOpenError is returned when attempting to open a transaction while one is already active.
-var TransactionAlreadyOpenError = errors.New("transaction already open")
+// ErrTransactionAlreadyOpen is returned when attempting to open a transaction while one is already active.
+var ErrTransactionAlreadyOpen = errors.New("transaction already open")
+
+// TransactionAlreadyOpenError is deprecated: use ErrTransactionAlreadyOpen instead.
+var TransactionAlreadyOpenError = ErrTransactionAlreadyOpen
 
 //counterfeiter:generate -o mocks/db.go --fake-name DB . DB
 

@@ -16,17 +16,17 @@ type RelationStoreString RelationStore[string, string]
 // RelationStore implement a forward and backword id lookup for a 1:N relation.
 type RelationStore[ID ~[]byte | ~string, RelatedID ~[]byte | ~string] interface {
 	// Add the given relationIDs to ID
-	Add(ctx context.Context, id ID, relatedIds []RelatedID) error
+	Add(ctx context.Context, id ID, relatedIDs []RelatedID) error
 	// Replace all relations of id with the given
-	Replace(ctx context.Context, id ID, relatedIds []RelatedID) error
+	Replace(ctx context.Context, id ID, relatedIDs []RelatedID) error
 	// Remove all relation from ID to the given
-	Remove(ctx context.Context, id ID, relatedIds []RelatedID) error
+	Remove(ctx context.Context, id ID, relatedIDs []RelatedID) error
 	// Delete ID and all relations
 	Delete(ctx context.Context, id ID) error
 	// RelatedIDs return all relation of ID
 	RelatedIDs(ctx context.Context, id ID) ([]RelatedID, error)
 	// IDs return all ids of RelatedID
-	IDs(ctx context.Context, relatedId RelatedID) ([]ID, error)
+	IDs(ctx context.Context, relatedID RelatedID) ([]ID, error)
 	// StreamIDs return all existing IDs
 	StreamIDs(ctx context.Context, ch chan<- ID) error
 	// StreamRelatedIDs return all existing relationIDs
@@ -129,10 +129,10 @@ func (r *relationStore[ID, RelatedID]) StreamRelatedIDs(
 func (r *relationStore[ID, RelatedID]) Add(
 	ctx context.Context,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
-		return r.relationStoreTx.Add(ctx, tx, id, relatedIds)
+		return r.relationStoreTx.Add(ctx, tx, id, relatedIDs)
 	})
 	if err != nil {
 		return errors.Wrapf(ctx, err, "update failed")
@@ -143,10 +143,10 @@ func (r *relationStore[ID, RelatedID]) Add(
 func (r *relationStore[ID, RelatedID]) Replace(
 	ctx context.Context,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
-		return r.relationStoreTx.Replace(ctx, tx, id, relatedIds)
+		return r.relationStoreTx.Replace(ctx, tx, id, relatedIDs)
 	})
 	if err != nil {
 		return errors.Wrapf(ctx, err, "update failed")
@@ -157,10 +157,10 @@ func (r *relationStore[ID, RelatedID]) Replace(
 func (r *relationStore[ID, RelatedID]) Remove(
 	ctx context.Context,
 	id ID,
-	relatedIds []RelatedID,
+	relatedIDs []RelatedID,
 ) error {
 	err := r.db.Update(ctx, func(ctx context.Context, tx Tx) error {
-		return r.relationStoreTx.Remove(ctx, tx, id, relatedIds)
+		return r.relationStoreTx.Remove(ctx, tx, id, relatedIDs)
 	})
 	if err != nil {
 		return errors.Wrapf(ctx, err, "update failed")
@@ -194,11 +194,11 @@ func (r *relationStore[ID, RelatedID]) RelatedIDs(ctx context.Context, id ID) ([
 	return result, nil
 }
 
-func (r *relationStore[ID, RelatedID]) IDs(ctx context.Context, relatedId RelatedID) ([]ID, error) {
+func (r *relationStore[ID, RelatedID]) IDs(ctx context.Context, relatedID RelatedID) ([]ID, error) {
 	var result []ID
 	var err error
 	err = r.db.View(ctx, func(ctx context.Context, tx Tx) error {
-		result, err = r.relationStoreTx.IDs(ctx, tx, relatedId)
+		result, err = r.relationStoreTx.IDs(ctx, tx, relatedID)
 		if err != nil {
 			return errors.Wrapf(ctx, err, "TODO")
 		}

@@ -8,6 +8,17 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.17.0
+
+- Refactor error variables to follow Go ErrFoo naming convention
+- Add ErrTransactionAlreadyOpen, ErrBucketNotFound, ErrBucketAlreadyExists with backward-compatible deprecation
+- Rename StoreStream/StoreList interfaces to StoreStreamer/StoreLister with backward-compatible type aliases
+- Update Go version from 1.25.2 to 1.25.4
+- Update dependencies (github.com/bborbe/http, github.com/bborbe/log, github.com/bborbe/run, github.com/onsi/ginkgo/v2)
+- Enhance golangci-lint configuration with additional linters (errname, unparam, bodyclose, forcetypeassert, asasalint, prealloc, nestif)
+- Add exclusion rules for deprecated error variables in linter configuration
+- Fix deprecated Go stdlib usage (io/ioutil) in depguard rules
+
 ## v1.16.1
 
 - Add comprehensive test suite for benchmark package (26 tests, 73% coverage)

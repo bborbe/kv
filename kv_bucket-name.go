@@ -48,5 +48,5 @@ func (b BucketName) Bytes() []byte {
 
 // Equal compares two bucket names for equality.
 func (b BucketName) Equal(value BucketName) bool {
-	return bytes.Compare(b, value) == 0
+	return bytes.Equal(b, value)
 }

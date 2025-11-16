@@ -26,7 +26,7 @@ func NewResetBucketHandler(db DB, cancel context.CancelFunc) http.Handler {
 			http.Error(resp, "parameter bucket missing", http.StatusBadRequest)
 			return
 		}
-		if lock.TryLock() == false {
+		if !lock.TryLock() {
 			glog.V(2).Infof("reset bucket %s running", bucketName)
 			http.Error(
 				resp,
