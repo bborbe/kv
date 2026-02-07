@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.18.2
+
+- Update Go to 1.25.7
+- Update github.com/bborbe dependencies
+- Update testing dependencies (ginkgo, gomega)
+- Update google/osv-scanner to v2.3.2
+- Add .update-logs/ and .mcp-* to .gitignore
+
 ## v1.18.1
 
 - Update Go to 1.25.5
