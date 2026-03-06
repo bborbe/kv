@@ -28,15 +28,21 @@ func NewBoltBenchmarkHandler(
 ) libhttp.WithError {
 	return libhttp.WithErrorFunc(
 		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-			amount, _ := strconv.Atoi(req.FormValue("amount"))
+			amount, _ := strconv.Atoi(
+				req.FormValue("amount"),
+			) // #nosec G120 -- benchmark tool, not production
 			if amount <= 0 {
 				amount = 1000
 			}
-			valueLength, _ := strconv.Atoi(req.FormValue("valueLength"))
+			valueLength, _ := strconv.Atoi(
+				req.FormValue("valueLength"),
+			) // #nosec G120 -- benchmark tool, not production
 			if valueLength <= 0 {
 				valueLength = 10000
 			}
-			batchSize, _ := strconv.Atoi(req.FormValue("batchSize"))
+			batchSize, _ := strconv.Atoi(
+				req.FormValue("batchSize"),
+			) // #nosec G120 -- benchmark tool, not production
 			if batchSize <= 0 {
 				batchSize = 1
 			}
