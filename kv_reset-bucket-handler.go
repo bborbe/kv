@@ -50,11 +50,7 @@ func NewResetBucketHandler(db DB, cancel context.CancelFunc) http.Handler {
 			return
 		}
 		resp.WriteHeader(http.StatusOK)
-		_, _ = fmt.Fprintf(
-			resp,
-			"reset bucket %s successful\n",
-			bucketName,
-		) // #nosec G705 -- internal admin endpoint
+		_, _ = fmt.Fprintf(resp, "reset bucket successful\n")
 		glog.V(2).Infof("reset bucket %s successful", bucketName)
 		cancel()
 	})

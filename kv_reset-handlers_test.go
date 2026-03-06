@@ -150,7 +150,7 @@ var _ = Describe("Reset Handlers", func() {
 				Expect(recorder.Code).To(Equal(http.StatusOK))
 				Expect(
 					recorder.Body.String(),
-				).To(ContainSubstring("reset bucket test-bucket successful"))
+				).To(ContainSubstring("reset bucket successful"))
 				Expect(db.UpdateCallCount()).To(Equal(1))
 				Expect(tx.DeleteBucketCallCount()).To(Equal(1))
 				_, actualBucketName := tx.DeleteBucketArgsForCall(0)
