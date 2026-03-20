@@ -1,7 +1,12 @@
 ---
-status: approved
+status: completed
+summary: Ran make precommit — all checks passed (tests, vet, errcheck, gosec, trivy, govulncheck) with exit code 0; no fixes were needed.
+container: kv-001-fix-tests-and-dod
+dark-factory-version: v0.59.5-dirty
 created: "2026-03-20T12:58:05Z"
 queued: "2026-03-20T12:58:05Z"
+started: "2026-03-20T14:32:07Z"
+completed: "2026-03-20T14:40:35Z"
 ---
 
 <summary>
