@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.18.6
+
+- upgrade golangci-lint from v1 to v2
+- add trivy ghcr.io db-repository
+- update bborbe/errors to v1.5.5
+- update bborbe/run to v1.9.8
+- update bborbe/log to v1.6.5
+
 ## v1.18.5
 
 - go mod update

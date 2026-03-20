@@ -6,3 +6,6 @@ coverage.html
 coverprofile.out
 /.update-logs/
 /.mcp-*
+/.dark-factory.lock
+/prompts/log
+/specs/log
