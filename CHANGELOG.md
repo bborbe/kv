@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.3
+
+- Update bborbe/* dependencies (errors, http, log, run, sentry, time, math)
+- Update golangci-lint v2.11.4 and osv-scanner v2.3.5
+- Update docker, containerd, moby, and opencontainers deps
+- Add .osv-scanner.toml with vulnerability ignores for docker indirect deps
+- Clean up go.mod: remove exclude blocks, update replace directive
+
 ## v1.19.2
 
 - chore: verify project health — all tests pass, linting clean, precommit exits 0
