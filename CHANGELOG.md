@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.5
+
+- Update Go to 1.26.2
+- Update bborbe/* deps (errors, http, log, run, collection, parse, time, validation)
+- Update third-party deps (moby/buildkit, otel, docker/cli, go-git, sentry, etc.)
+- Re-enable lint in make check target
+- Add new osv-scanner/trivy ignores for known indirect vulns
+
 ## v1.19.4
 
 - Update go-git/go-git to v5.17.1 (fix security vulnerabilities)

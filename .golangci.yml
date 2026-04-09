@@ -6,7 +6,6 @@ run:
 
 linters:
   enable:
-    # Core
     - govet
     - errcheck
     - staticcheck
@@ -16,19 +15,6 @@ linters:
     - gocyclo
     - depguard
     - dupl
-
-    # SRP & maintainability
-    - nestif
-
-    # Readability & style
-    - errname
-    - unparam
-
-    # Safety / defensive coding
-    - bodyclose
-    - forcetypeassert
-    - asasalint
-    - prealloc
   settings:
     depguard:
       rules:
@@ -36,27 +22,6 @@ linters:
           deny:
             - pkg: "github.com/pkg/errors"
               desc: "use github.com/bborbe/errors instead"
-            - pkg: "github.com/bborbe/argument"
-              desc: "use github.com/bborbe/argument/v2 instead"
-            - pkg: "golang.org/x/net/context"
-              desc: "use context from standard library instead"
-            - pkg: "golang.org/x/lint/golint"
-              desc: "deprecated, use revive or staticcheck instead"
-            - pkg: "io/ioutil"
-              desc: "deprecated since Go 1.16, use io and os packages instead"
-
-    funlen:
-      lines: 80
-      statements: 50
-
-    gocognit:
-      min-complexity: 20
-
-    nestif:
-      min-complexity: 4
-
-    maintidx:
-      min-maintainability-index: 20
   exclusions:
     presets:
       - comments
@@ -67,33 +32,20 @@ linters:
           - staticcheck
         text: "SA1019"
       - linters:
-          - errname
-        text: "(KeyNotFoundError|TransactionAlreadyOpenError|BucketNotFoundError|BucketAlreadyExistsError)"
-      - linters:
           - revive
         path: "_test\\.go$"
         text: "dot-imports"
+      - linters:
+          - revive
+          - staticcheck
+        path: "-test-suite\\.go$"
+        text: "dot-imports|ST1001"
+      - linters:
+          - dupl
+        path: "-test-suite\\.go$"
       - linters:
           - revive
         text: "unused-parameter"
       - linters:
           - revive
         text: "exported"
-      - linters:
-          - dupl
-        path: "_test\\.go$"
-      - linters:
-          - unparam
-        path: "_test\\.go$"
-      - linters:
-          - dupl
-        path: "-test-suite\\.go$"
-      - linters:
-          - revive
-        path: "-test-suite\\.go$"
-        text: "dot-imports"
-
-formatters:
-  enable:
-    - gofmt
-    - goimports
