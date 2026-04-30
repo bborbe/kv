@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.6
+
+- chore: Migrate to tools.env + Makefile @version pattern; remove tools.go and obsolete replace block. go.mod direct deps reduced from 20 to 9.
+- fix: Upgrade go-git/go-git to v5.18.0 (GHSA-3xc5-wrhm-f963)
+- chore: Remove stale osv-scanner suppressions for bbolt and aws-sdk (no longer in dep graph); update docker suppression IDs to primary GO- identifiers
+
 ## v1.19.5
 
 - Update Go to 1.26.2
