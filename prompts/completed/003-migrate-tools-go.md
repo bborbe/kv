@@ -1,11 +1,12 @@
 ---
-status: committing
+status: completed
 summary: 'Migrated bborbe/kv from tools.go to tools.env + Makefile @version pattern: deleted tools.go, created tools.env with 11 version vars, updated Makefile with include and @version invocations, updated //go:generate directives to @v6.12.2, rewrote go.mod to 9 direct deps (removed replace block), cleaned .osv-scanner.toml of stale suppressions, and upgraded go-git to v5.18.0 to fix GHSA-3xc5-wrhm-f963.'
 container: kv-003-migrate-tools-go
 dark-factory-version: dev
 created: "2026-04-30T20:24:38Z"
 queued: "2026-04-30T20:24:38Z"
 started: "2026-04-30T20:24:40Z"
+completed: "2026-04-30T20:33:34Z"
 ---
 
 # Migrate from tools.go to tools.env + Makefile @version pattern
