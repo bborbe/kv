@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.8
+
+- bump github.com/bborbe/log v1.6.12 → v1.6.13
+
 ## v1.19.7
 
 - Bump Go version to 1.26.3
