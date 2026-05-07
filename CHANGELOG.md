@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.7
+
+- Bump Go version to 1.26.3
+- Update bborbe/errors to v1.5.13, bborbe/http to v1.26.11, bborbe/run to v1.9.24
+- Update bborbe/sentry to v1.9.16, getsentry/sentry-go to v0.46.2
+- Clean up indirect dependencies in go.mod
+
 ## v1.19.6
 
 - chore: Migrate to tools.env + Makefile @version pattern; remove tools.go and obsolete replace block. go.mod direct deps reduced from 20 to 9.
