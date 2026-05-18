@@ -33,4 +33,6 @@ type DB interface {
 
 	// Remove database files from disk
 	Remove() error
+
+	Stats(ctx context.Context) (Stats, error) // NEW
 }

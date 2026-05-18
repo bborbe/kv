@@ -24,6 +24,10 @@ type dbWithMetrics struct {
 	db      DB
 }
 
+func (d *dbWithMetrics) Stats(ctx context.Context) (Stats, error) {
+	return d.db.Stats(ctx)
+}
+
 func (d *dbWithMetrics) Update(
 	ctx context.Context,
 	fn func(ctx context.Context, tx Tx) error,

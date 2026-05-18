@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.20.0
+
+- Add `Stats(ctx) (Stats, error)` method to `DB` interface
+- Add `Stats` and `BucketStats` types for database statistics
+- Implement `Stats` in metrics wrapper (`dbWithMetrics`)
+- Bump ginkgo v2.29.0, gomega v1.41.0, bborbe/time v1.27.0
+
 ## v1.19.8
 
 - bump github.com/bborbe/log v1.6.12 → v1.6.13

@@ -4,24 +4,24 @@ go 1.26.3
 
 require (
 	github.com/bborbe/errors v1.5.13
-	github.com/bborbe/http v1.26.11
+	github.com/bborbe/http v1.26.12
 	github.com/bborbe/log v1.6.13
 	github.com/bborbe/run v1.9.24
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
-	github.com/onsi/ginkgo/v2 v2.28.3
-	github.com/onsi/gomega v1.40.0
+	github.com/onsi/ginkgo/v2 v2.29.0
+	github.com/onsi/gomega v1.41.0
 	github.com/prometheus/client_golang v1.23.2
 )
 
 require (
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
-	github.com/bborbe/collection v1.20.11 // indirect
-	github.com/bborbe/math v1.3.9 // indirect
-	github.com/bborbe/parse v1.10.11 // indirect
-	github.com/bborbe/sentry v1.9.16 // indirect
-	github.com/bborbe/time v1.25.10 // indirect
-	github.com/bborbe/validation v1.4.12 // indirect
+	github.com/bborbe/collection v1.20.12 // indirect
+	github.com/bborbe/math v1.3.10 // indirect
+	github.com/bborbe/parse v1.10.12 // indirect
+	github.com/bborbe/sentry v1.9.17 // indirect
+	github.com/bborbe/time v1.27.0 // indirect
+	github.com/bborbe/validation v1.4.13 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/getsentry/sentry-go v0.46.2 // indirect

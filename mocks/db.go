@@ -29,6 +29,19 @@ type DB struct {
 	removeReturnsOnCall map[int]struct {
 		result1 error
 	}
+	StatsStub        func(context.Context) (kv.Stats, error)
+	statsMutex       sync.RWMutex
+	statsArgsForCall []struct {
+		arg1 context.Context
+	}
+	statsReturns struct {
+		result1 kv.Stats
+		result2 error
+	}
+	statsReturnsOnCall map[int]struct {
+		result1 kv.Stats
+		result2 error
+	}
 	SyncStub        func() error
 	syncMutex       sync.RWMutex
 	syncArgsForCall []struct {
@@ -171,6 +184,70 @@ func (fake *DB) RemoveReturnsOnCall(i int, result1 error) {
 	fake.removeReturnsOnCall[i] = struct {
 		result1 error
 	}{result1}
+}
+
+func (fake *DB) Stats(arg1 context.Context) (kv.Stats, error) {
+	fake.statsMutex.Lock()
+	ret, specificReturn := fake.statsReturnsOnCall[len(fake.statsArgsForCall)]
+	fake.statsArgsForCall = append(fake.statsArgsForCall, struct {
+		arg1 context.Context
+	}{arg1})
+	stub := fake.StatsStub
+	fakeReturns := fake.statsReturns
+	fake.recordInvocation("Stats", []interface{}{arg1})
+	fake.statsMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *DB) StatsCallCount() int {
+	fake.statsMutex.RLock()
+	defer fake.statsMutex.RUnlock()
+	return len(fake.statsArgsForCall)
+}
+
+func (fake *DB) StatsCalls(stub func(context.Context) (kv.Stats, error)) {
+	fake.statsMutex.Lock()
+	defer fake.statsMutex.Unlock()
+	fake.StatsStub = stub
+}
+
+func (fake *DB) StatsArgsForCall(i int) context.Context {
+	fake.statsMutex.RLock()
+	defer fake.statsMutex.RUnlock()
+	argsForCall := fake.statsArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *DB) StatsReturns(result1 kv.Stats, result2 error) {
+	fake.statsMutex.Lock()
+	defer fake.statsMutex.Unlock()
+	fake.StatsStub = nil
+	fake.statsReturns = struct {
+		result1 kv.Stats
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *DB) StatsReturnsOnCall(i int, result1 kv.Stats, result2 error) {
+	fake.statsMutex.Lock()
+	defer fake.statsMutex.Unlock()
+	fake.StatsStub = nil
+	if fake.statsReturnsOnCall == nil {
+		fake.statsReturnsOnCall = make(map[int]struct {
+			result1 kv.Stats
+			result2 error
+		})
+	}
+	fake.statsReturnsOnCall[i] = struct {
+		result1 kv.Stats
+		result2 error
+	}{result1, result2}
 }
 
 func (fake *DB) Sync() error {
