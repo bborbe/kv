@@ -34,6 +34,13 @@ type DB interface {
 	// Remove database files from disk
 	Remove() error
 
-	// Stats of the DB
-	Stats(ctx context.Context) (Stats, error)
+	// Stats returns a fast overview: total size and bucket inventory (names only).
+	// Per-bucket key counts and size estimates are NOT populated.
+	// Cost: O(top-level buckets), independent of total key count.
+	Stats(ctx context.Context) (*Stats, error)
+
+	// StatsDetailed returns Stats plus per-bucket KeyCount and SizeB.
+	// Cost: O(total keys) on backends without native counters (badger, memory)
+	// and O(total pages) on bolt. Do not poll hot.
+	StatsDetailed(ctx context.Context) (*Stats, error)
 }

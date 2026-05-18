@@ -6,6 +6,7 @@ package kv
 
 import (
 	"bytes"
+	"encoding/json"
 	"strings"
 )
 
@@ -49,4 +50,20 @@ func (b BucketName) Bytes() []byte {
 // Equal compares two bucket names for equality.
 func (b BucketName) Equal(value BucketName) bool {
 	return bytes.Equal(b, value)
+}
+
+// MarshalJSON encodes the bucket name as a plain JSON string rather than the
+// default base64 representation Go uses for []byte values.
+func (b BucketName) MarshalJSON() ([]byte, error) {
+	return json.Marshal(string(b))
+}
+
+// UnmarshalJSON decodes a JSON string back into a bucket name.
+func (b *BucketName) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+	*b = BucketName(s)
+	return nil
 }

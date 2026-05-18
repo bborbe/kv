@@ -29,17 +29,30 @@ type DB struct {
 	removeReturnsOnCall map[int]struct {
 		result1 error
 	}
-	StatsStub        func(context.Context) (kv.Stats, error)
+	StatsStub        func(context.Context) (*kv.Stats, error)
 	statsMutex       sync.RWMutex
 	statsArgsForCall []struct {
 		arg1 context.Context
 	}
 	statsReturns struct {
-		result1 kv.Stats
+		result1 *kv.Stats
 		result2 error
 	}
 	statsReturnsOnCall map[int]struct {
-		result1 kv.Stats
+		result1 *kv.Stats
+		result2 error
+	}
+	StatsDetailedStub        func(context.Context) (*kv.Stats, error)
+	statsDetailedMutex       sync.RWMutex
+	statsDetailedArgsForCall []struct {
+		arg1 context.Context
+	}
+	statsDetailedReturns struct {
+		result1 *kv.Stats
+		result2 error
+	}
+	statsDetailedReturnsOnCall map[int]struct {
+		result1 *kv.Stats
 		result2 error
 	}
 	SyncStub        func() error
@@ -186,7 +199,7 @@ func (fake *DB) RemoveReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
-func (fake *DB) Stats(arg1 context.Context) (kv.Stats, error) {
+func (fake *DB) Stats(arg1 context.Context) (*kv.Stats, error) {
 	fake.statsMutex.Lock()
 	ret, specificReturn := fake.statsReturnsOnCall[len(fake.statsArgsForCall)]
 	fake.statsArgsForCall = append(fake.statsArgsForCall, struct {
@@ -211,7 +224,7 @@ func (fake *DB) StatsCallCount() int {
 	return len(fake.statsArgsForCall)
 }
 
-func (fake *DB) StatsCalls(stub func(context.Context) (kv.Stats, error)) {
+func (fake *DB) StatsCalls(stub func(context.Context) (*kv.Stats, error)) {
 	fake.statsMutex.Lock()
 	defer fake.statsMutex.Unlock()
 	fake.StatsStub = stub
@@ -224,28 +237,92 @@ func (fake *DB) StatsArgsForCall(i int) context.Context {
 	return argsForCall.arg1
 }
 
-func (fake *DB) StatsReturns(result1 kv.Stats, result2 error) {
+func (fake *DB) StatsReturns(result1 *kv.Stats, result2 error) {
 	fake.statsMutex.Lock()
 	defer fake.statsMutex.Unlock()
 	fake.StatsStub = nil
 	fake.statsReturns = struct {
-		result1 kv.Stats
+		result1 *kv.Stats
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *DB) StatsReturnsOnCall(i int, result1 kv.Stats, result2 error) {
+func (fake *DB) StatsReturnsOnCall(i int, result1 *kv.Stats, result2 error) {
 	fake.statsMutex.Lock()
 	defer fake.statsMutex.Unlock()
 	fake.StatsStub = nil
 	if fake.statsReturnsOnCall == nil {
 		fake.statsReturnsOnCall = make(map[int]struct {
-			result1 kv.Stats
+			result1 *kv.Stats
 			result2 error
 		})
 	}
 	fake.statsReturnsOnCall[i] = struct {
-		result1 kv.Stats
+		result1 *kv.Stats
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *DB) StatsDetailed(arg1 context.Context) (*kv.Stats, error) {
+	fake.statsDetailedMutex.Lock()
+	ret, specificReturn := fake.statsDetailedReturnsOnCall[len(fake.statsDetailedArgsForCall)]
+	fake.statsDetailedArgsForCall = append(fake.statsDetailedArgsForCall, struct {
+		arg1 context.Context
+	}{arg1})
+	stub := fake.StatsDetailedStub
+	fakeReturns := fake.statsDetailedReturns
+	fake.recordInvocation("StatsDetailed", []interface{}{arg1})
+	fake.statsDetailedMutex.Unlock()
+	if stub != nil {
+		return stub(arg1)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *DB) StatsDetailedCallCount() int {
+	fake.statsDetailedMutex.RLock()
+	defer fake.statsDetailedMutex.RUnlock()
+	return len(fake.statsDetailedArgsForCall)
+}
+
+func (fake *DB) StatsDetailedCalls(stub func(context.Context) (*kv.Stats, error)) {
+	fake.statsDetailedMutex.Lock()
+	defer fake.statsDetailedMutex.Unlock()
+	fake.StatsDetailedStub = stub
+}
+
+func (fake *DB) StatsDetailedArgsForCall(i int) context.Context {
+	fake.statsDetailedMutex.RLock()
+	defer fake.statsDetailedMutex.RUnlock()
+	argsForCall := fake.statsDetailedArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *DB) StatsDetailedReturns(result1 *kv.Stats, result2 error) {
+	fake.statsDetailedMutex.Lock()
+	defer fake.statsDetailedMutex.Unlock()
+	fake.StatsDetailedStub = nil
+	fake.statsDetailedReturns = struct {
+		result1 *kv.Stats
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *DB) StatsDetailedReturnsOnCall(i int, result1 *kv.Stats, result2 error) {
+	fake.statsDetailedMutex.Lock()
+	defer fake.statsDetailedMutex.Unlock()
+	fake.StatsDetailedStub = nil
+	if fake.statsDetailedReturnsOnCall == nil {
+		fake.statsDetailedReturnsOnCall = make(map[int]struct {
+			result1 *kv.Stats
+			result2 error
+		})
+	}
+	fake.statsDetailedReturnsOnCall[i] = struct {
+		result1 *kv.Stats
 		result2 error
 	}{result1, result2}
 }
