@@ -8,6 +8,18 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.21.1
+
+- Add tests for `BucketName.MarshalJSON` / `UnmarshalJSON` covering plain encoding, empty, special chars, round-trip, struct fields, and non-string error case
+
+## v1.21.0
+
+- **BREAKING**: `DB.Stats(ctx)` now returns `*Stats` instead of `Stats` (nil on error)
+- Add `DB.StatsDetailed(ctx) (*Stats, error)` — slow variant that includes per-bucket `KeyCount` and `SizeB`
+- Add `Stats.Detailed bool` field indicating whether per-bucket counts are populated
+- `BucketStats.KeyCount` and `BucketStats.SizeB` now use `omitempty` (skipped in fast Stats output)
+- Add `BucketName.MarshalJSON` / `UnmarshalJSON` — emits the plain string name instead of base64
+
 ## v1.20.0
 
 - Add `Stats(ctx) (Stats, error)` method to `DB` interface

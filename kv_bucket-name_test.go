@@ -5,6 +5,8 @@
 package kv_test
 
 import (
+	"encoding/json"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
@@ -57,6 +59,70 @@ var _ = Describe("BucketName", func() {
 		It("handles empty bucket name", func() {
 			bucketName := kv.NewBucketName("")
 			Expect(bucketName.Bytes()).To(Equal([]byte("")))
+		})
+	})
+
+	Context("MarshalJSON", func() {
+		It("encodes as plain JSON string, not base64", func() {
+			bucketName := kv.NewBucketName("candle-store_dwx_GBPJPY")
+			data, err := json.Marshal(bucketName)
+			Expect(err).To(BeNil())
+			Expect(string(data)).To(Equal(`"candle-store_dwx_GBPJPY"`))
+		})
+
+		It("encodes empty bucket name as empty string", func() {
+			bucketName := kv.NewBucketName("")
+			data, err := json.Marshal(bucketName)
+			Expect(err).To(BeNil())
+			Expect(string(data)).To(Equal(`""`))
+		})
+
+		It("encodes bucket name with special characters", func() {
+			bucketName := kv.NewBucketName("name_with-special.chars/and:slashes")
+			data, err := json.Marshal(bucketName)
+			Expect(err).To(BeNil())
+			Expect(string(data)).To(Equal(`"name_with-special.chars/and:slashes"`))
+		})
+
+		It("works inside a struct field", func() {
+			type wrapper struct {
+				Name kv.BucketName `json:"name"`
+			}
+			data, err := json.Marshal(wrapper{Name: kv.NewBucketName("hello")})
+			Expect(err).To(BeNil())
+			Expect(string(data)).To(Equal(`{"name":"hello"}`))
+		})
+	})
+
+	Context("UnmarshalJSON", func() {
+		It("decodes a plain JSON string into a bucket name", func() {
+			var bucketName kv.BucketName
+			err := json.Unmarshal([]byte(`"hello-bucket"`), &bucketName)
+			Expect(err).To(BeNil())
+			Expect(bucketName.String()).To(Equal("hello-bucket"))
+		})
+
+		It("decodes empty string into empty bucket name", func() {
+			var bucketName kv.BucketName
+			err := json.Unmarshal([]byte(`""`), &bucketName)
+			Expect(err).To(BeNil())
+			Expect(bucketName.String()).To(Equal(""))
+		})
+
+		It("round-trips through Marshal/Unmarshal", func() {
+			original := kv.NewBucketName("candle-store_dwx_GBPJPY")
+			data, err := json.Marshal(original)
+			Expect(err).To(BeNil())
+			var roundtripped kv.BucketName
+			err = json.Unmarshal(data, &roundtripped)
+			Expect(err).To(BeNil())
+			Expect(roundtripped.Equal(original)).To(BeTrue())
+		})
+
+		It("returns error on non-string JSON", func() {
+			var bucketName kv.BucketName
+			err := json.Unmarshal([]byte(`123`), &bucketName)
+			Expect(err).NotTo(BeNil())
 		})
 	})
 
