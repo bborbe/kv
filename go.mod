@@ -1,12 +1,12 @@
 module github.com/bborbe/kv
 
-go 1.26.3
+go 1.26.4
 
 require (
 	github.com/bborbe/errors v1.5.13
 	github.com/bborbe/http v1.26.12
-	github.com/bborbe/log v1.6.13
-	github.com/bborbe/run v1.9.24
+	github.com/bborbe/log v1.6.14
+	github.com/bborbe/run v1.9.28
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.29.0
@@ -43,4 +43,8 @@ require (
 	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/tools v0.44.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
+)
+
+exclude (
+	cloud.google.com/go v0.26.0
 )
