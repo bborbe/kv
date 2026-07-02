@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.21.3
+
+- Update github.com/onsi/ginkgo/v2 to v2.32.0
+- Update github.com/onsi/gomega to v1.42.1
+- Bump indirect dependencies (bborbe libs, golang.org/x/*)
+
 ## v1.21.2
 
 - bump go 1.26.4
