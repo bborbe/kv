@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.21.4
+
+- Bump github.com/bborbe/errors to v1.5.15
+- Bump github.com/bborbe/run to v1.9.29
+- Bump github.com/getsentry/sentry-go to v0.47.0
+
 ## v1.21.3
 
 - Update github.com/onsi/ginkgo/v2 to v2.32.0

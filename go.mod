@@ -3,10 +3,10 @@ module github.com/bborbe/kv
 go 1.26.4
 
 require (
-	github.com/bborbe/errors v1.5.13
+	github.com/bborbe/errors v1.5.15
 	github.com/bborbe/http v1.26.13
 	github.com/bborbe/log v1.6.14
-	github.com/bborbe/run v1.9.28
+	github.com/bborbe/run v1.9.29
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.32.0
@@ -24,7 +24,7 @@ require (
 	github.com/bborbe/validation v1.4.13 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/getsentry/sentry-go v0.46.2 // indirect
+	github.com/getsentry/sentry-go v0.47.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
