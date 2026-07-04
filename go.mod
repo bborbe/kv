@@ -5,8 +5,8 @@ go 1.26.4
 require (
 	github.com/bborbe/errors v1.5.15
 	github.com/bborbe/http v1.26.13
-	github.com/bborbe/log v1.6.14
-	github.com/bborbe/run v1.9.29
+	github.com/bborbe/log v1.6.15
+	github.com/bborbe/run v1.9.30
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.32.0
