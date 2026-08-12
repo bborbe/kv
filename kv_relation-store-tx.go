@@ -108,6 +108,12 @@ func (r *relationStoreTx[ID, RelatedID]) Add(
 		return errors.Wrapf(ctx, err, "add relationIDs failed")
 	}
 	for _, relatedID := range relatedIDs {
+		select {
+		case <-ctx.Done():
+			return errors.Wrap(ctx, ctx.Err(), "context cancelled")
+		default:
+		}
+
 		currentIDs, err := r.IDs(ctx, tx, relatedID)
 		if err != nil {
 			return errors.Wrapf(ctx, err, "get ids failed")
@@ -135,6 +141,12 @@ func (r *relationStoreTx[ID, RelatedID]) Remove(
 		return errors.Wrapf(ctx, err, "add relationIDs failed")
 	}
 	for _, relatedID := range relatedIDs {
+		select {
+		case <-ctx.Done():
+			return errors.Wrap(ctx, ctx.Err(), "context cancelled")
+		default:
+		}
+
 		currentIDs, err := r.IDs(ctx, tx, relatedID)
 		if err != nil {
 			return errors.Wrapf(ctx, err, "get ids failed")
