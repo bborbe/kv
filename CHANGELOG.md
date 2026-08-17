@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- update Go to 1.26.6 and update dependencies
+
 ## v1.21.9
 
 - fix: `relationStoreTx.Add` and `.Remove` now check `ctx.Done()` before each iteration. Both loop over the caller-supplied `relatedIDs` doing two bucket operations per element (an `IDs()` read and a `relationIDBucket.Add()` write), so a long slice could not be interrupted if the underlying store does not honour the context. Returning early leaves the caller's `Tx` to roll back, which is the correct behaviour.
