@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- chore: update Go to 1.27.0 and github.com/bborbe/errors to v1.5.21, github.com/bborbe/http to v1.26.24, github.com/bborbe/log to v1.6.25, github.com/bborbe/run to v1.9.37
+
 ## v1.21.11
 
 - chore: Run gofmt last in the `format` target and bump golangci-lint to v2.13.1 + errcheck to v1.20.0 for Go 1.27 compatibility
