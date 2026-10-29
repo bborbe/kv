@@ -6,7 +6,7 @@ require (
 	github.com/bborbe/errors v1.6.5
 	github.com/bborbe/http v1.26.32
 	github.com/bborbe/log v1.7.5
-	github.com/bborbe/run v1.11.6
+	github.com/bborbe/run v1.11.7
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
 	github.com/onsi/ginkgo/v2 v2.33.1
