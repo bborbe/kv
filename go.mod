@@ -20,7 +20,7 @@ require (
 	github.com/bborbe/math v1.4.16 // indirect
 	github.com/bborbe/parse v1.12.4 // indirect
 	github.com/bborbe/sentry v1.10.6 // indirect
-	github.com/bborbe/time v1.27.22 // indirect
+	github.com/bborbe/time v1.27.23 // indirect
 	github.com/bborbe/validation v1.5.6 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -33,7 +33,7 @@ require (
 	github.com/pandatix/go-abnf v0.5.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
-	github.com/prometheus/common v0.73.0 // indirect
+	github.com/prometheus/common v0.73.1 // indirect
 	github.com/prometheus/procfs v0.23.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/mod v0.42.0 // indirect
